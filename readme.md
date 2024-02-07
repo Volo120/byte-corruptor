@@ -15,10 +15,10 @@ the main UI:
 here's an example image for before and after corrupting it:
 before
 ![example](gallery/example.png)
-
+---
 after
 ![corruptedExample](gallery/corruptedExample.png)
-
+---
 used settings:
 ![usedSettings](gallery/usedSettings.png)
 
