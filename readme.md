@@ -10,17 +10,17 @@ This app helps you with overwriting, randomizing and replacing bytes the way you
 
 # Screenshots
 the main UI:
-![ui] (gallery/ui.png)
+![ui](gallery/ui.png)
 ---
 here's an example image for before and after corrupting it:
 before
-![example] (gallery/example.png)
+![example](gallery/example.png)
 
 after
-![corruptedExample] (gallery/corruptedExample.png)
+![corruptedExample](gallery/corruptedExample.png)
 
 used settings:
-![usedSettings] (gallery/usedSettings.png)
+![usedSettings](gallery/usedSettings.png)
 
 # How to run?
 run it by "main.pyw" or by the .exe file.
