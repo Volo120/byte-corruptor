@@ -1,4 +1,4 @@
-# Volo's Byte Annihilator
+# Volo's Byte Corruptor
 
 # Description
 This app helps you with overwriting, randomizing and replacing bytes the way you want.
@@ -21,9 +21,6 @@ after
 ---
 used settings:
 ![usedSettings](./gallery/usedSettings.png)
-
-# How to run?
-run it by "main.pyw" or by the .exe file.
 
 # Usage
 1. select a file
