@@ -7,7 +7,7 @@ class AppClass(Tk):
     def __init__(self):
         super().__init__()
         self.v = "1.0.0"
-        self.title(f"Volo's Byte Annihilator {self.v}")
+        self.title(f"Volo's Byte Corruptor {self.v}")
         self.geometry("770x530")
         self.resizable(0, 0)
 
