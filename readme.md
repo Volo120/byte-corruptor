@@ -1,4 +1,4 @@
-# Volo's Byte Corruptor
+# V's Byte Corruptor
 
 # Description
 This app helps you with overwriting, randomizing and replacing bytes the way you want.
@@ -7,6 +7,7 @@ This app helps you with overwriting, randomizing and replacing bytes the way you
 - Incrementing
 - Randomizing
 - Replacing
+- swapper
 
 # Screenshots
 the main UI:
