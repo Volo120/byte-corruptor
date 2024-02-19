@@ -1,5 +1,5 @@
 @echo off
-pyinstaller .\main.pyw -n "Corrupter" -F
+pyinstaller .\main.py -n "Corrupter" -F
 cd ./dist
 move ./*.exe ../
 cd ..
