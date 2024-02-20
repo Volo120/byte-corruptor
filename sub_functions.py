@@ -158,7 +158,7 @@ def checkEntriesValuesType(self, var: int, **collection: sw.EntryCollection) -> 
 def _setBottomBtnsLayout(self):
     self.bottomFrame.pack(pady=10, side="bottom")
     self.prevPageBtn.grid(row=0, column=0, padx=5)
-    self.runBtn.grid(row=0, column=1)
+    self.corruptBtn.grid(row=0, column=1)
     self.nextPageBtn.grid(row=0, column=2, padx=5)
 
 def _setFileLayout(self):
@@ -312,7 +312,7 @@ def prevAndNextSwitch(self, pageNum):
 
         self.bottomFrame.pack_forget()
         self.prevPageBtn.grid_forget()
-        self.runBtn.grid_forget()
+        self.corruptBtn.grid_forget()
         self.nextPageBtn.grid_forget()
     
     _setPageItems(self, pageNum)

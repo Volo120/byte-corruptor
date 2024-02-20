@@ -7,7 +7,7 @@ import special_widgets as sw
 class AppClass(Tk):
     def __init__(self):
         super().__init__()
-        self.v = "2.0.0"
+        self.v = "2.1.0"
         self.title(f"V's Byte Corruptor {self.v}")
         self.geometry("770x530")
         self.resizable(0, 0)
@@ -245,7 +245,7 @@ class AppClass(Tk):
 
         self.sep11 = Label(self.swapperFrame)
 
-        self.swapperByLabel = Label(self.swapperFrame, text="swap with next/prev", cursor="hand2")
+        self.swapperByLabel = Label(self.swapperFrame, text="swap with next", cursor="hand2")
         self.swapperByLabel.bind("<Button-1>", lambda x=None: sf.info("swap with"))
 
         self.swapperByEntry = Entry(self.swapperFrame, width=8)
@@ -277,8 +277,8 @@ class AppClass(Tk):
         self.prevPageBtn = Button(self.bottomFrame, text="<<<", font=("Helvetica", 15, "bold"), state=NORMAL, command=lambda: sf.prevAndNextSwitch(self, 0))
         self.prevPageBtn.grid(row=0, column=0, padx=5)
 
-        self.runBtn = Button(self.bottomFrame, text="Run", font=("Helvetica", 20, "bold"), state=DISABLED, command=self.run)
-        self.runBtn.grid(row=0, column=1)
+        self.corruptBtn = Button(self.bottomFrame, text="Corrupt", font=("Helvetica", 20, "bold"), state=DISABLED, command=self.runCorruption)
+        self.corruptBtn.grid(row=0, column=1)
 
         self.nextPageBtn = Button(self.bottomFrame, text=">>>", font=("Helvetica", 15, "bold"), state=NORMAL, command=lambda: sf.prevAndNextSwitch(self, 1))
         self.nextPageBtn.grid(row=0, column=2, padx=5)
@@ -309,9 +309,9 @@ class AppClass(Tk):
         self.saveEntry.insert(END, "../"+self.savePath.split("/")[-2]+"/"+self.savePath.split("/")[-1])
         self.saveEntry.config(state=DISABLED)
         self.incrementerEndFillBtn.config(state=NORMAL)
-        self.runBtn.config(state=NORMAL)
+        self.corruptBtn.config(state=NORMAL)
 
-    def run(self):
+    def runCorruption(self):
         if not sf.checkEntriesValuesType(
             self,
             var=self.var.get(),
@@ -363,59 +363,54 @@ class AppClass(Tk):
         if self.var.get() == 1:
             if int(incGap) <= 0: incGap = 1
             for i in range(int(incStartAt), int(incEndAt), int(incGap)):
-                if i != 0:
-                    if self.randomizedOperators.get():
-                        op = random.choice(["+", "-"])
-                        if op == "+":
-                            byteArray[i] += int(incInc)
-                        elif op == "-":
-                            byteArray[i] -= int(incInc)
-                    else:
+                if self.randomizedOperators.get():
+                    op = random.choice(["+", "-"])
+                    if op == "+":
                         byteArray[i] += int(incInc)
-                    if byteArray[i] > 255 or byteArray[i] < 0:
-                        byteArray[i] %= 255
+                    elif op == "-":
+                        byteArray[i] -= int(incInc)
+                else:
+                    byteArray[i] += int(incInc)
+                if byteArray[i] > 255 or byteArray[i] < 0:
+                    byteArray[i] %= 255
 
         if self.var.get() == 2:
             if int(rGap) <= 0: rGap = 1
             for i in range(int(rStartAt), int(rEndAt), int(rGap)):
-                if i != 0:
-                    if self.randomizedOperators.get():
-                        op = random.choice(["+", "-"])
-                        if op == "+":
-                            byteArray[i] += random.randint(int(rMinMax[0]), int(rMinMax[1]))
-                        elif op == "-":
-                            byteArray[i] -= random.randint(int(rMinMax[0]), int(rMinMax[1]))
-                    else:
+                if self.randomizedOperators.get():
+                    op = random.choice(["+", "-"])
+                    if op == "+":
                         byteArray[i] += random.randint(int(rMinMax[0]), int(rMinMax[1]))
+                    elif op == "-":
+                        byteArray[i] -= random.randint(int(rMinMax[0]), int(rMinMax[1]))
+                else:
+                    byteArray[i] += random.randint(int(rMinMax[0]), int(rMinMax[1]))
 
-                    if byteArray[i] > 255 or byteArray[i] < 0:
-                        byteArray[i] %= 255
+                if byteArray[i] > 255 or byteArray[i] < 0:
+                    byteArray[i] %= 255
 
         if self.var.get() == 3:
             if int(reGap) <= 0: reGap = 1
             if self.exclusive.get():
                 for i in range(int(reStartAt), int(reEndAt), int(reGap)):
-                    if i != 0:
-                        if byteArray[i] == int(reOriginalNew[0]):
-                            byteArray[i] = int(reOriginalNew[1])
-                        if byteArray[i] > 255 or byteArray[i] < 0:
-                            byteArray[i] %= 255
+                    if byteArray[i] == int(reOriginalNew[0]):
+                        byteArray[i] = int(reOriginalNew[1])
+                    if byteArray[i] > 255 or byteArray[i] < 0:
+                        byteArray[i] %= 255
             else:
                 for i in range(int(reStartAt), int(reEndAt), int(reGap)):
-                    if i != 0:
-                        byteArray[i] = int(reExclusive)
-                        if byteArray[i] > 255 or byteArray[i] < 0:
-                            byteArray[i] %= 255
+                    byteArray[i] = int(reExclusive)
+                    if byteArray[i] > 255 or byteArray[i] < 0:
+                        byteArray[i] %= 255
 
         if self.var.get() == 4:
             if int(sGap) <= 0: sGap = 1
             for i in range(int(sStartAt), int(sEndAt), int(sGap)):
-                if i != 0:
-                    if byteArray[i] != b"":
-                        try:
-                            byteArray[i], byteArray[i+int(sIndex)] = byteArray[i+int(sIndex)], byteArray[i]
-                        except:
-                            sf.user32MessageBox(f"out of bounds, adjust gap size")
+                if byteArray[i] != b"":
+                    try:
+                        byteArray[i], byteArray[i+int(sIndex)] = byteArray[i+int(sIndex)], byteArray[i]
+                    except:
+                        return sf.user32MessageBox(f"out of bounds, adjust gap size")
 
         newFile = open(self.savePath, "wb+")
         
