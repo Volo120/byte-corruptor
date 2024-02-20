@@ -1,13 +1,13 @@
 # V's Byte Corruptor
 
 # Description
-This app helps you with overwriting, randomizing and replacing bytes the way you want.
+This app helps you with manipulation the bytes of any file the way you like.
 
 # Features
 - Incrementing
 - Randomizing
 - Replacing
-- swapper
+- Swapping
 
 # Screenshots
 the main UI:
@@ -20,7 +20,7 @@ before
 after
 ![corruptedExample](./gallery/corruptedExample.png)
 ---
-used settings:
+used settings for the example above:
 ![usedSettings](./gallery/usedSettings.png)
 
 # Usage
