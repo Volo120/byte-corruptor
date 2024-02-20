@@ -1,7 +1,7 @@
 # V's Byte Corruptor
 
 # Description
-This app helps you with manipulation the bytes of any file the way you like.
+This app helps you manipulate the bytes of any file the way you like.
 
 # Features
 - Incrementing
