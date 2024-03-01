@@ -10,7 +10,7 @@ import preset_manager as pm
 class AppClass(Tk):
     def __init__(self):
         super().__init__()
-        self.v = "v3.0.0"
+        self.v = "v3.0.1"
         self.title(f"Byte Corruptor {self.v}")
         self.resizable(0, 0)
         self.iconbitmap(os.path.join(os.environ["WINDIR"], "System32", "systeminfo.exe")) # default windows app icon
