@@ -1,7 +1,7 @@
-# V's Byte Corruptor
+# Byte Corruptor
 
 # Description
-This app helps you manipulate the bytes of any file the way you like.
+This app helps you manipulate the bytes of any file the way you want.
 
 # Features
 - Incrementing
@@ -14,6 +14,6 @@ This app helps you manipulate the bytes of any file the way you like.
 # Usage
 1. select a file
 2. select where you want to save it
-3. pick an algorithm (Incrementer, Randomizer, Replacer)
+3. pick an algorithm (Incrementer, Randomizer, Replacer, etc..)
 4. fill the boxes
 5. run it
