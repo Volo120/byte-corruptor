@@ -62,12 +62,12 @@ class PresetWindow(Toplevel):
                 self.presetsListBox.insert(END, file)
 
     def _createFile(self, name: str, parent: Toplevel):
-        if self.master.fileEntry["state"] == DISABLED: return user32MessageBox(
+        if len(self.master.fileEntry.get("1.0", END).replace("\n", "")) == 0: return user32MessageBox(
             title="",
             message="input and/or output files must be specified",
             style=MB_OK | MB_ICONSTOP
         )
-        if self.master.saveEntry["state"] == DISABLED: return user32MessageBox(
+        if len(self.master.saveEntry.get("1.0", END).replace("\n", "")) == 0: return user32MessageBox(
             title="",
             message="input and/or output files must be specified",
             style=MB_OK | MB_ICONSTOP
@@ -126,6 +126,7 @@ class PresetWindow(Toplevel):
             json.dump(newData, file, indent=4)
 
         parent.destroy()
+        self.destroy()
 
     def create(self):
         w = Toplevel(self)
