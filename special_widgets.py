@@ -2,7 +2,7 @@ import tkinter
 
 class EntryCollection:
     def __init__(self) -> None:
-        self.entries = None
+        self.entries = []
         
     def register(self):
         return {
@@ -10,7 +10,7 @@ class EntryCollection:
         }
     
     def setEntry(self, *entry):
-        self.entries = [entry]
+        self.entries.append(entry)
 
 class Entry(tkinter.Entry):
     def __init__(self, master: tkinter.Tk | tkinter.Frame, width: int, hasSpecialCharacters: bool) -> None:
@@ -45,3 +45,5 @@ class Entry(tkinter.Entry):
     def delete(self, first: str | int, last: str | int | None = None) -> None:
         return self.entry.delete(first, last)
     
+    def config(self, **kwargs) -> None:
+        return self.entry.config(kwargs)

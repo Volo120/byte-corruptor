@@ -6,4 +6,4 @@ cd ..
 rd /s /q __pycache__
 rd /s /q build
 rd /s /q dist
-del /q "Corrupter.spec"
+del /q "Corruptor.spec"
