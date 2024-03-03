@@ -8,6 +8,8 @@ This app helps you manipulate the bytes of any file the way you want.
 - Randomizing
 - Replacing
 - Swapping
+- Copying
+- Mixing
 ---
 ![ui](./gallery/ui.png)
 ---
