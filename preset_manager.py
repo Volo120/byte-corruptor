@@ -77,10 +77,12 @@ class PresetWindow(Toplevel):
                 "var": self.master.var.get(),
                 "defaultThemeVar": self.master.defaultThemeVar.get(),
                 "darkThemeVar": self.master.darkThemeVar.get(),
+                "pistachioThemeVar": self.master.pistachioThemeVar.get()
             },
 
             "menuBar": {
                 "randomizedOperators": self.master.randomizedOperators.get(),
+                "reversedArray": self.master.reversedArray.get()
             },
 
             "topFrame": {
@@ -88,6 +90,7 @@ class PresetWindow(Toplevel):
                 "saveEntry": self.master.saveEntry.get("1.0", END).replace("\n", ""),
                 "selectedFilePath": self.master.selectedFilePath,
                 "savePath": self.master.savePath,
+                "fileToMixWith": self.master.fileToMixWith
             },
             
             "incrementerFrame": {
@@ -118,6 +121,20 @@ class PresetWindow(Toplevel):
                 "swapperByEntry": self.master.swapperByEntry.get(),
                 "swapperGapEntry": self.master.swapperGapEntry.get(),
                 "swapperEndAtEntry": self.master.swapperEndAtEntry.get(),
+            },
+
+            "copierFrame": {
+                "copierStartEntry": self.master.copierStartEntry.get(),
+                "copierByEntry": self.master.copierByEntry.get(),
+                "copierGapEntry": self.master.copierGapEntry.get(),
+                "copierEndAtEntry": self.master.copierEndAtEntry.get(),
+            },
+
+            "mixerFrame": {
+                "mixerStartEntry": self.master.mixerStartEntry.get(),
+                "mixerByEntry": self.master.mixerByEntry.get(),
+                "mixerGapEntry": self.master.mixerGapEntry.get(),
+                "mixerEndAtEntry": self.master.mixerEndAtEntry.get(),
             }
         }
 
@@ -167,16 +184,19 @@ class PresetWindow(Toplevel):
         self.master.var.set(data["vars"]["var"])
         self.master.defaultThemeVar.set(data["vars"]["defaultThemeVar"])
         self.master.darkThemeVar.set(data["vars"]["darkThemeVar"])
+        self.master.pistachioThemeVar.set(data["vars"]["pistachioThemeVar"])
         
         self.master.randomizedOperators.set(data["menuBar"]["randomizedOperators"])
+        self.master.reversedArray.set(data["menuBar"]["reversedArray"])
 
         self.master.fileEntry.config(state=NORMAL); self.master.fileEntry.delete("1.0", END)
         self.master.saveEntry.config(state=NORMAL); self.master.saveEntry.delete("1.0", END)
 
-        self.master.fileEntry.insert("1.0", data["topFrame"]["fileEntry"])
-        self.master.saveEntry.insert("1.0", data["topFrame"]["saveEntry"])
+        self.master.fileEntry.insert("1.0", data["topFrame"]["fileEntry"]); self.master.fileEntry.config(state=DISABLED)
+        self.master.saveEntry.insert("1.0", data["topFrame"]["saveEntry"]); self.master.saveEntry.config(state=DISABLED)
         self.master.selectedFilePath = data["topFrame"]["selectedFilePath"]
         self.master.savePath = data["topFrame"]["savePath"]
+        self.master.fileToMixWith = data["topFrame"]["fileToMixWith"]
 
         self.master.incrementerStartEntry.config(state=NORMAL); self.master.incrementerStartEntry.delete(0, END)
         self.master.incrementerByEntry.config(state=NORMAL); self.master.incrementerByEntry.delete(0, END)
@@ -221,11 +241,35 @@ class PresetWindow(Toplevel):
         self.master.swapperGapEntry.insert(0, data["swapperFrame"]["swapperGapEntry"]); self.master.swapperGapEntry.config(state=DISABLED)
         self.master.swapperEndAtEntry.insert(0, data["swapperFrame"]["swapperEndAtEntry"]); self.master.swapperEndAtEntry.config(state=DISABLED)
 
+        self.master.copierStartEntry.config(state=NORMAL); self.master.copierStartEntry.delete(0, END)
+        self.master.copierByEntry.config(state=NORMAL); self.master.copierByEntry.delete(0, END)
+        self.master.copierGapEntry.config(state=NORMAL); self.master.copierGapEntry.delete(0, END)
+        self.master.copierEndAtEntry.config(state=NORMAL); self.master.copierEndAtEntry.delete(0, END)
+
+        self.master.copierStartEntry.insert(0, data["copierFrame"]["copierStartEntry"]); self.master.copierStartEntry.config(state=DISABLED)
+        self.master.copierByEntry.insert(0, data["copierFrame"]["copierByEntry"]); self.master.copierByEntry.config(state=DISABLED)
+        self.master.copierGapEntry.insert(0, data["copierFrame"]["copierGapEntry"]); self.master.copierGapEntry.config(state=DISABLED)
+        self.master.copierEndAtEntry.insert(0, data["copierFrame"]["copierEndAtEntry"]); self.master.copierEndAtEntry.config(state=DISABLED)
+
+        self.master.mixerStartEntry.config(state=NORMAL); self.master.mixerStartEntry.delete(0, END)
+        self.master.mixerByEntry.config(state=NORMAL); self.master.mixerByEntry.delete(0, END)
+        self.master.mixerGapEntry.config(state=NORMAL); self.master.mixerGapEntry.delete(0, END)
+        self.master.mixerEndAtEntry.config(state=NORMAL); self.master.mixerEndAtEntry.delete(0, END)
+
+        self.master.mixerStartEntry.insert(0, data["mixerFrame"]["mixerStartEntry"]); self.master.mixerStartEntry.config(state=DISABLED)
+        self.master.mixerByEntry.insert(0, data["mixerFrame"]["mixerByEntry"]); self.master.mixerByEntry.config(state=DISABLED)
+        self.master.mixerGapEntry.insert(0, data["mixerFrame"]["mixerGapEntry"]); self.master.mixerGapEntry.config(state=DISABLED)
+        self.master.mixerEndAtEntry.insert(0, data["mixerFrame"]["mixerEndAtEntry"]); self.master.mixerEndAtEntry.config(state=DISABLED)
+        self.master.fileToMixLabel.config(text=self.master.fileToMixWith)
+
         if self.master.defaultThemeVar.get():
             self.t.setDefaultTheme()
 
         if self.master.darkThemeVar.get():
             self.t.setDarkTheme()
+
+        if self.master.pistachioThemeVar.get():
+            self.t.setPistachioTheme()
 
         dw.autoDisableAndEnable(self.master)
         dw.exclusiveToggle(self.master)

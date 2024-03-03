@@ -4,12 +4,12 @@ class EntryCollection:
     def __init__(self) -> None:
         self.entries = []
         
-    def register(self):
+    def register(self) -> dict:
         return {
             "entries": self.entries
         }
     
-    def setEntry(self, *entry):
+    def setEntry(self, *entry) -> None:
         self.entries.append(entry)
 
 class Entry(tkinter.Entry):

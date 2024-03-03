@@ -12,7 +12,7 @@ MB_ICONSTOP = 0x00000010
 def user32MessageBox(message: str, title: str="warning", style: int=MB_OK | MB_ICONEXCLAMATION):
     ctypes.windll.user32.MessageBoxW(None, message, title, style)
 
-def info(buttonType: str):
+def info(buttonType: str) -> None:
     if buttonType == "add file":
         return user32MessageBox(
             message="specify the path for your target file.\nnote: the program will only copy the content of it, so you don't have to worry about it",
@@ -73,8 +73,33 @@ def info(buttonType: str):
             title="help",
             style=MB_OK | MB_ICONASTERISK
         )
+    elif buttonType == "copy byte at":
+        return user32MessageBox(
+            message="specify the index of the byte you would like to copy and spam with.",
+            title="help",
+            style=MB_OK | MB_ICONASTERISK
+        )
+    
+def randomizedAddSubOperators_HELP() -> None:
+    return user32MessageBox(
+        message="when this option is enabled, the corruptor will randomly increment and decrement byte values (this functionality works with Incrementer and Randomizer only)",
+        title="help",
+        style=MB_OK | MB_ICONASTERISK
+    )
 
-def checkEntriesValuesType(self, var: int, **collection: sw.EntryCollection) -> bool:
+def invertFileBytes_HELP() -> None:
+    return user32MessageBox(
+        message="when this option is enabled, the corruptor will write the bytes of a file in reverse (not recommended if you're corrupting a binary file, as it does not adhere to the \"gap size\" parameter)",
+        title="help",
+        style=MB_OK | MB_ICONASTERISK
+    )
+
+def selectFileToMixWith(self):
+    try: self.fileToMixWith = askopenfile().name
+    except AttributeError: return
+    self.fileToMixLabel["text"] = self.fileToMixWith
+
+def checkEntriesValuesType(var: int, **collection: sw.EntryCollection) -> bool:
     ent: sw.Entry
     if var == 1: # incrementer
         for ent in (collection["incr"]["entries"][0]):
@@ -155,8 +180,36 @@ def checkEntriesValuesType(self, var: int, **collection: sw.EntryCollection) -> 
                 user32MessageBox(message="invalid symbols were inserted")
                 return False
         return True
+    
+    elif var == 5: # copier
+        for ent in (collection["copy"]["entries"][0]):
+            try:
+                if len(ent.get()) == 0: raise se.EmptyEntry()
+            except se.EmptyEntry:
+                user32MessageBox(message="make sure to fill all empty fields")
+                return False
+            try:
+                int(ent.get())
+            except ValueError:
+                user32MessageBox(message="invalid symbols were inserted")
+                return False
+        return True
+    
+    elif var == 6: # mixer
+        for ent in (collection["mixe"]["entries"][0]):
+            try:
+                if len(ent.get()) == 0: raise se.EmptyEntry()
+            except se.EmptyEntry:
+                user32MessageBox(message="make sure to fill all empty fields")
+                return False
+            try:
+                int(ent.get())
+            except ValueError:
+                user32MessageBox(message="invalid symbols were inserted")
+                return False
+        return True
 
-def selectFile(self):
+def selectFile(self) -> None:
     try: self.selectedFilePath = askopenfile().name
     except AttributeError: return
     self.fileEntry.config(state=NORMAL)
@@ -165,7 +218,7 @@ def selectFile(self):
     self.fileEntry.config(state=DISABLED)
     self.saveBtn.config(state=NORMAL)
 
-def saveToPath(self):
+def saveToPath(self) -> None:
     if not self.selectedFilePath: return
     self.saveBtn.config(state=NORMAL)
     try: self.savePath = asksaveasfile(initialfile=self.selectedFilePath).name
