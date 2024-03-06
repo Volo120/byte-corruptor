@@ -35,9 +35,6 @@ class Entry(tkinter.Entry):
     
     def pack_forget(self) -> None:
         return self.entry.pack_forget()
-
-    def config(self, state: str) -> None:
-        return self.entry.config(state=state)
     
     def insert(self, index: str | int, string: str) -> None:
         return self.entry.insert(index, string)

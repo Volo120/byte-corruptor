@@ -94,6 +94,14 @@ def invertFileBytes_HELP() -> None:
         style=MB_OK | MB_ICONASTERISK
     )
 
+def reverseBytes(byteArray: list, start: str, end: str) -> list:
+    reversedArray = []
+    reversedArray.clear()
+    for b in byteArray[int(start):int(end)]:
+        reversedArray.append(b)
+    reversedArray.reverse()
+    return reversedArray
+
 def selectFileToMixWith(self):
     try: self.fileToMixWith = askopenfile().name
     except AttributeError: return

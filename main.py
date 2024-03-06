@@ -6,12 +6,12 @@ import special_widgets as sw
 import dynamic_widgets as dw
 import themes as t
 import preset_manager as pm
-import menu_items as mi
+import app_widgets as aw
 
 class AppClass(Tk):
     def __init__(self):
         super().__init__()
-        self.v = "v4.0.0"
+        self.v = "v4.0.1"
         self.title(f"Byte Corruptor {self.v}")
         self.resizable(0, 0)
         self.iconbitmap(os.path.join(os.environ["WINDIR"], "System32", "systeminfo.exe")) # default windows executable icon
@@ -38,7 +38,7 @@ class AppClass(Tk):
         self.randomizedOperators = BooleanVar(self, False)
         self.reversedArray = BooleanVar(self, False)
 
-        mi.init_menuItems(self, pm, dw, sf, t, os, sw)
+        aw.init_appWidgets(self, pm, dw, sf, t, os, sw)
 
         # inits
         dw.autoDisableAndEnable(self)
@@ -102,7 +102,10 @@ class AppClass(Tk):
             
         byteArray = []
         byteArray.clear()
+
         file = open(self.selectedFilePath, "rb+")
+        newFile = open(self.savePath, "wb+")
+
         for i in range(0, os.path.getsize(self.selectedFilePath)):
             file.seek(i)
             currentByte = file.read(1)
@@ -113,28 +116,22 @@ class AppClass(Tk):
         reversedArray.clear()
         
         if self.reversedArray.get() and self.var.get() == 1:
-            for b in byteArray[int(incStartAt):int(incEndAt)]:
-                reversedArray.append(b)
-            reversedArray.reverse()
-            byteArray[int(incStartAt):int(incEndAt)] = reversedArray
+            byteArray[int(incStartAt):int(incEndAt)] = sf.reverseBytes(byteArray, incStartAt, incEndAt)
 
         if self.reversedArray.get() and self.var.get() == 2:
-            for b in byteArray[int(rStartAt):int(rEndAt)]:
-                reversedArray.append(b)
-            reversedArray.reverse()
-            byteArray[int(rStartAt):int(reEndAt)] = reversedArray
+            byteArray[int(rStartAt):int(rEndAt)] = sf.reverseBytes(byteArray, rStartAt, rEndAt)
 
         if self.reversedArray.get() and self.var.get() == 3:
-            for b in byteArray[int(reStartAt):int(reEndAt)]:
-                reversedArray.append(b)
-            reversedArray.reverse()
-            byteArray[int(reStartAt):int(reEndAt)] = reversedArray
+            byteArray[int(reStartAt):int(reEndAt)] = sf.reverseBytes(byteArray, reStartAt, reEndAt)
 
         if self.reversedArray.get() and self.var.get() == 4:
-            for b in byteArray[int(sStartAt):int(sEndAt)]:
-                reversedArray.append(b)
-            reversedArray.reverse()
-            byteArray[int(sStartAt):int(sEndAt)] = reversedArray
+            byteArray[int(sStartAt):int(sEndAt)] = sf.reverseBytes(byteArray, sStartAt, sEndAt)
+
+        if self.reversedArray.get() and self.var.get() == 5:
+            byteArray[int(cStartAt):int(cEndAt)] = sf.reverseBytes(byteArray, cStartAt, cEndAt)
+
+        if self.reversedArray.get() and self.var.get() == 6:
+            byteArray[int(mStartAt):int(mEndAt)] = sf.reverseBytes(byteArray, mStartAt, mEndAt)
 
         if self.var.get() == 1:
             if int(incGap) <= 0: incGap = 1
@@ -212,13 +209,11 @@ class AppClass(Tk):
 
             if int(mGap) <= 0: mGap = 1
             for i in range(int(mStartAt), int(mEndAt), int(mGap)):
-                if mixIndex > len(mixBytes)-1:
+                if mixIndex > len(mixBytes):
                     mixIndex = 0
                 byteArray[i] = mixBytes[mixIndex]
                 mixIndex += 1
-
-        newFile = open(self.savePath, "wb+")
-        
+                
         for b in byteArray:
             byte = b.to_bytes(1, "big")
             newFile.write(byte)
