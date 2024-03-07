@@ -97,8 +97,7 @@ def invertFileBytes_HELP() -> None:
 def reverseBytes(byteArray: list, start: str, end: str) -> list:
     reversedArray = []
     reversedArray.clear()
-    for b in byteArray[int(start):int(end)]:
-        reversedArray.append(b)
+    reversedArray = byteArray[int(start):int(end)]
     reversedArray.reverse()
     return reversedArray
 
