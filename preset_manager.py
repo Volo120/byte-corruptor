@@ -68,16 +68,19 @@ class PresetWindow(Toplevel):
             style=MB_OK | MB_ICONSTOP
         )
         if len(self.master.saveEntry.get("1.0", END).replace("\n", "")) == 0: return user32MessageBox(
-            title="",
+            title="erorr",
             message="input and/or output files must be specified",
             style=MB_OK | MB_ICONSTOP
         )
         newData = {
             "vars": {
                 "var": self.master.var.get(),
+                "currentMenu": self.master.currentMenu,
                 "defaultThemeVar": self.master.defaultThemeVar.get(),
                 "darkThemeVar": self.master.darkThemeVar.get(),
-                "pistachioThemeVar": self.master.pistachioThemeVar.get()
+                "pistachioThemeVar": self.master.pistachioThemeVar.get(),
+                "bitShiftDirectionVar": self.master.bitShiftDirectionVar.get(),
+                "bitShiftAmount": self.master.bitShiftAmount.get()
             },
 
             "menuBar": {
@@ -135,6 +138,12 @@ class PresetWindow(Toplevel):
                 "mixerByEntry": self.master.mixerByEntry.get(),
                 "mixerGapEntry": self.master.mixerGapEntry.get(),
                 "mixerEndAtEntry": self.master.mixerEndAtEntry.get(),
+            },
+
+            "bitShifterLabel": {
+                "bitShiftStartAtEntry": self.master.bitShiftStartAtEntry.get(),
+                "bitShiftGapEntry": self.master.bitShiftGapEntry.get(),
+                "bitShiftEndtAtEntry": self.master.bitShiftEndtAtEntry.get()
             }
         }
 
@@ -185,6 +194,9 @@ class PresetWindow(Toplevel):
         self.master.defaultThemeVar.set(data["vars"]["defaultThemeVar"])
         self.master.darkThemeVar.set(data["vars"]["darkThemeVar"])
         self.master.pistachioThemeVar.set(data["vars"]["pistachioThemeVar"])
+
+        self.master.bitShiftDirectionVar.set(data["vars"]["bitShiftDirectionVar"])
+        self.master.bitShiftAmount.set(data["vars"]["bitShiftAmount"])
         
         self.master.randomizedOperators.set(data["menuBar"]["randomizedOperators"])
         self.master.reversedArray.set(data["menuBar"]["reversedArray"])
@@ -262,6 +274,14 @@ class PresetWindow(Toplevel):
         self.master.mixerEndAtEntry.insert(0, data["mixerFrame"]["mixerEndAtEntry"]); self.master.mixerEndAtEntry.config(state=DISABLED)
         self.master.fileToMixLabel.config(text=self.master.fileToMixWith)
 
+        self.master.bitShiftStartAtEntry.config(state=NORMAL); self.master.bitShiftStartAtEntry.delete(0, END)
+        self.master.bitShiftGapEntry.config(state=NORMAL); self.master.bitShiftGapEntry.delete(0, END)
+        self.master.bitShiftEndtAtEntry.config(state=NORMAL); self.master.bitShiftEndtAtEntry.delete(0, END)
+
+        self.master.bitShiftStartAtEntry.insert(0, data["bitShifterLabel"]["bitShiftStartAtEntry"]); self.master.bitShiftStartAtEntry.config(state=DISABLED)
+        self.master.bitShiftGapEntry.insert(0, data["bitShifterLabel"]["bitShiftGapEntry"]); self.master.bitShiftGapEntry.config(state=DISABLED)
+        self.master.bitShiftEndtAtEntry.insert(0, data["bitShifterLabel"]["bitShiftEndtAtEntry"]); self.master.bitShiftEndtAtEntry.config(state=DISABLED)
+
         if self.master.defaultThemeVar.get():
             self.t.setDefaultTheme()
 
@@ -273,7 +293,7 @@ class PresetWindow(Toplevel):
 
         dw.autoDisableAndEnable(self.master)
         dw.exclusiveToggle(self.master)
-        dw.prevAndNextSwitch(self.master, 0)
+        dw.prevAndNextSwitch(self.master, "PRESET", data["vars"]["currentMenu"])
         self.master.corruptBtn.config(state=NORMAL)
 
         self.destroy()
