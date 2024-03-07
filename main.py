@@ -11,36 +11,18 @@ import app_widgets as aw
 class AppClass(Tk):
     def __init__(self):
         super().__init__()
-        self.v = "v4.0.1"
+        self.v = "v4.0.2"
         self.title(f"Byte Corruptor {self.v}")
         self.resizable(0, 0)
-        self.iconbitmap(os.path.join(os.environ["WINDIR"], "System32", "systeminfo.exe")) # default windows executable icon
+        self.iconbitmap(os.path.join(os.environ["WINDIR"], "System32", "systeminfo.exe")) # windows executable icon
 
         self.selectedFilePath = None
         self.savePath = None
 
         self.fileToMixWith = None
 
-        self.incrementerColl = sw.EntryCollection()
-        self.randomizerColl  = sw.EntryCollection()
-        self.replacerColl    = sw.EntryCollection()
-        self.swapperColl     = sw.EntryCollection()
-        self.copierColl      = sw.EntryCollection()
-        self.mixerColl       = sw.EntryCollection()
-        
-        self.var = IntVar(self, 1)
-
-        self.defaultThemeVar = BooleanVar(self, True)
-        self.darkThemeVar = BooleanVar(self, False)
-        self.pistachioThemeVar = BooleanVar(self, False)
-        
-        self.exclusive = BooleanVar(self, True)
-        self.randomizedOperators = BooleanVar(self, False)
-        self.reversedArray = BooleanVar(self, False)
-
+        # init (defaults)
         aw.init_appWidgets(self, pm, dw, sf, t, os, sw)
-
-        # inits
         dw.autoDisableAndEnable(self)
         dw.exclusiveToggle(self)
         dw.prevAndNextSwitch(self, 0)
@@ -56,13 +38,6 @@ class AppClass(Tk):
             copy=self.copierColl.register(),
             mixe=self.mixerColl.register()
         ): return
-
-        incStartAt, incEndAt, incGap, incInc = None, None, None, None
-        rStartAt, rEndAt, rGap, rMinMax = None, None, None, None
-        reStartAt, reEndAt, reGap, reOriginalNew, reNonExclusive = None, None, None, None, None
-        sStartAt, sEndAt, sGap, sIndex = None, None, None, None
-        cStartAt, cEndAt, cGap, cIndex = None, None, None, None
-        mStartAt, mEndAt, mGap = None, None, None
 
         if self.var.get() == 1:
             incStartAt = self.incrementerStartEntry.get()
@@ -178,6 +153,7 @@ class AppClass(Tk):
         
         if self.var.get() == 4:
             if int(sGap) <= 0: sGap = 1
+            if int(sIndex) > len(byteArray): return sf.user32MessageBox(message="the byte you chose is out of bounds", style=sf.MB_OK | sf.MB_ICONSTOP)
             for i in range(int(sStartAt), int(sEndAt), int(sGap)):
                 try:
                     j = i + int(sIndex)

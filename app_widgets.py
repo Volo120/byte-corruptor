@@ -7,6 +7,23 @@ import preset_manager as pm
 import os
 
 def init_appWidgets(self, pm: pm, dw: dw, sf: sf, t: t, os: os, sw: sw) -> None:
+    self.incrementerColl = sw.EntryCollection()
+    self.randomizerColl  = sw.EntryCollection()
+    self.replacerColl    = sw.EntryCollection()
+    self.swapperColl     = sw.EntryCollection()
+    self.copierColl      = sw.EntryCollection()
+    self.mixerColl       = sw.EntryCollection()
+
+    self.var = IntVar(self, 1)
+
+    self.defaultThemeVar = BooleanVar(self, True)
+    self.darkThemeVar = BooleanVar(self, False)
+    self.pistachioThemeVar = BooleanVar(self, False)
+        
+    self.exclusive = BooleanVar(self, True)
+    self.randomizedOperators = BooleanVar(self, False)
+    self.reversedArray = BooleanVar(self, False)
+
     self.menuBar = Menu(self)
     
     self.optionMenu = Menu(self.menuBar, tearoff=0)
