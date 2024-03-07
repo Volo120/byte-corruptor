@@ -10,6 +10,7 @@ This app helps you manipulate the bytes of any file the way you want.
 - Swapping
 - Copying
 - Mixing
+- Bitwise Shifting
 ---
 ![ui](./gallery/ui.png)
 ---
