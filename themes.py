@@ -58,6 +58,9 @@ class Theme:
         self.master.helpMenu.config(activebackground=DarkTheme.MENU_HIGHLIGHT.value)
         self.master.MenuItemsSubMenu.config(activebackground=DarkTheme.MENU_HIGHLIGHT.value)
 
+        self.master.bitShiftDirectionMenu.menu.config(activebackground=DarkTheme.MENU_HIGHLIGHT.value)
+        self.master.bitShiftAmountMenu.menu.config(activebackground=DarkTheme.MENU_HIGHLIGHT.value)
+
         self.master.topFrame.config(bg=DarkTheme.BG.value)
         self.master.fileBtn.config(bg=DarkTheme.BTN_BG.value, fg=DarkTheme.BTN_FG.value, activebackground=DarkTheme.BTN_ABG.value, activeforeground=DarkTheme.BTN_AFG.value)
         self.master.fileEntry.config(bg=DarkTheme.ENTRY_BG.value, fg=DarkTheme.ENTRY_FG.value)
@@ -156,6 +159,18 @@ class Theme:
         self.master.mixerEndFillBtn.config(bg=DarkTheme.BTN_BG.value, fg=DarkTheme.BTN_FG.value, activebackground=DarkTheme.BTN_ABG.value, activeforeground=DarkTheme.BTN_AFG.value)
         self.master.fileToMixLabel.config(bg=DarkTheme.BG.value, fg=DarkTheme.FG.value)
 
+        self.master.bitShiftLabel.config(bg=DarkTheme.LABEL_BG.value, fg=DarkTheme.LABEL_FG.value, activebackground=DarkTheme.BG.value, activeforeground=DarkTheme.FG.value, selectcolor=DarkTheme.BG.value)
+        self.master.bitShiftFrame.config(bg=DarkTheme.BG.value)
+        self.master.bitShiftStartAtLabel.config(bg=DarkTheme.LABEL_BG.value, fg=DarkTheme.LABEL_FG.value)
+        self.master.bitShiftStartAtEntry.config(bg=DarkTheme.ENTRY_BG.value, fg=DarkTheme.ENTRY_FG.value, disabledbackground=DarkTheme.ENTRY_DB.value)
+        self.master.bitShiftDirectionMenu.config(bg=DarkTheme.BTN_BG.value, fg=DarkTheme.BTN_FG.value, activebackground=DarkTheme.BTN_ABG.value, activeforeground=DarkTheme.BTN_AFG.value)
+        self.master.bitShiftAmountMenu.config(bg=DarkTheme.BTN_BG.value, fg=DarkTheme.BTN_FG.value, activebackground=DarkTheme.BTN_ABG.value, activeforeground=DarkTheme.BTN_AFG.value)
+        self.master.bitShiftGapLabel.config(bg=DarkTheme.LABEL_BG.value, fg=DarkTheme.LABEL_FG.value)
+        self.master.bitShiftGapEntry.config(bg=DarkTheme.ENTRY_BG.value, fg=DarkTheme.ENTRY_FG.value, disabledbackground=DarkTheme.ENTRY_DB.value)
+        self.master.bitShiftEndAtLabel.config(bg=DarkTheme.LABEL_BG.value, fg=DarkTheme.LABEL_FG.value)
+        self.master.bitShiftEndtAtEntry.config(bg=DarkTheme.ENTRY_BG.value, fg=DarkTheme.ENTRY_FG.value, disabledbackground=DarkTheme.ENTRY_DB.value)
+        self.master.bitShiftEndFillBtn.config(bg=DarkTheme.BTN_BG.value, fg=DarkTheme.BTN_FG.value, activebackground=DarkTheme.BTN_ABG.value, activeforeground=DarkTheme.BTN_AFG.value)
+
         self.master.bottomFrame.config(bg=DarkTheme.BG.value)
         self.master.prevPageBtn.config(bg=DarkTheme.BTN_BG.value, fg=DarkTheme.BTN_FG.value, activebackground=DarkTheme.BTN_ABG.value, activeforeground=DarkTheme.BTN_AFG.value)
         self.master.corruptBtn.config(bg=DarkTheme.BTN_BG.value, fg=DarkTheme.BTN_FG.value, activebackground=DarkTheme.BTN_ABG.value, activeforeground=DarkTheme.BTN_AFG.value)
@@ -172,6 +187,9 @@ class Theme:
         self.master.corruptionSettingsMenu.config(activebackground=LightTheme.MENU_HIGHLIGHT.value)
         self.master.helpMenu.config(activebackground=LightTheme.MENU_HIGHLIGHT.value)
         self.master.MenuItemsSubMenu.config(activebackground=LightTheme.MENU_HIGHLIGHT.value)
+
+        self.master.bitShiftDirectionMenu.menu.config(activebackground=LightTheme.MENU_HIGHLIGHT.value)
+        self.master.bitShiftAmountMenu.menu.config(activebackground=LightTheme.MENU_HIGHLIGHT.value)
 
         self.master.topFrame.config(bg=LightTheme.BG.value)
         self.master.fileBtn.config(bg=LightTheme.BTN_BG.value, fg=LightTheme.BTN_FG.value, activebackground=LightTheme.BTN_ABG.value, activeforeground=LightTheme.BTN_AFG.value)
@@ -271,6 +289,18 @@ class Theme:
         self.master.mixerEndFillBtn.config(bg=LightTheme.BTN_BG.value, fg=LightTheme.BTN_FG.value, activebackground=LightTheme.BTN_ABG.value, activeforeground=LightTheme.BTN_AFG.value)
         self.master.fileToMixLabel.config(bg=LightTheme.BG.value, fg=LightTheme.FG.value)
 
+        self.master.bitShiftLabel.config(bg=LightTheme.LABEL_BG.value, fg=LightTheme.LABEL_FG.value, activebackground=LightTheme.BG.value, activeforeground=LightTheme.FG.value, selectcolor=LightTheme.BG.value)
+        self.master.bitShiftFrame.config(bg=LightTheme.BG.value)
+        self.master.bitShiftStartAtLabel.config(bg=LightTheme.LABEL_BG.value, fg=LightTheme.LABEL_FG.value)
+        self.master.bitShiftStartAtEntry.config(bg=LightTheme.ENTRY_BG.value, fg=LightTheme.ENTRY_FG.value, disabledbackground=LightTheme.ENTRY_DB.value)
+        self.master.bitShiftDirectionMenu.config(bg=LightTheme.BTN_BG.value, fg=LightTheme.BTN_FG.value, activebackground=LightTheme.BTN_ABG.value, activeforeground=LightTheme.BTN_AFG.value)
+        self.master.bitShiftAmountMenu.config(bg=LightTheme.BTN_BG.value, fg=LightTheme.BTN_FG.value, activebackground=LightTheme.BTN_ABG.value, activeforeground=LightTheme.BTN_AFG.value)
+        self.master.bitShiftGapLabel.config(bg=LightTheme.LABEL_BG.value, fg=LightTheme.LABEL_FG.value)
+        self.master.bitShiftGapEntry.config(bg=LightTheme.ENTRY_BG.value, fg=LightTheme.ENTRY_FG.value, disabledbackground=LightTheme.ENTRY_DB.value)
+        self.master.bitShiftEndAtLabel.config(bg=LightTheme.LABEL_BG.value, fg=LightTheme.LABEL_FG.value)
+        self.master.bitShiftEndtAtEntry.config(bg=LightTheme.ENTRY_BG.value, fg=LightTheme.ENTRY_FG.value, disabledbackground=LightTheme.ENTRY_DB.value)
+        self.master.bitShiftEndFillBtn.config(bg=LightTheme.BTN_BG.value, fg=LightTheme.BTN_FG.value, activebackground=LightTheme.BTN_ABG.value, activeforeground=LightTheme.BTN_AFG.value)
+
         self.master.bottomFrame.config(bg=LightTheme.BG.value)
         self.master.prevPageBtn.config(bg=LightTheme.BTN_BG.value, fg=LightTheme.BTN_FG.value, activebackground=LightTheme.BTN_ABG.value, activeforeground=LightTheme.BTN_AFG.value)
         self.master.corruptBtn.config(bg=LightTheme.BTN_BG.value, fg=LightTheme.BTN_FG.value, activebackground=LightTheme.BTN_ABG.value, activeforeground=LightTheme.BTN_AFG.value)
@@ -287,6 +317,9 @@ class Theme:
         self.master.corruptionSettingsMenu.config(activebackground=PistachioTheme.MENU_HIGHLIGHT.value)
         self.master.helpMenu.config(activebackground=PistachioTheme.MENU_HIGHLIGHT.value)
         self.master.MenuItemsSubMenu.config(activebackground=PistachioTheme.MENU_HIGHLIGHT.value)
+
+        self.master.bitShiftDirectionMenu.menu.config(activebackground=PistachioTheme.MENU_HIGHLIGHT.value)
+        self.master.bitShiftAmountMenu.menu.config(activebackground=PistachioTheme.MENU_HIGHLIGHT.value)
 
         self.master.topFrame.config(bg=PistachioTheme.BG.value)
         self.master.fileBtn.config(bg=PistachioTheme.BTN_BG.value, fg=PistachioTheme.BTN_FG.value, activebackground=PistachioTheme.BTN_ABG.value, activeforeground=PistachioTheme.BTN_AFG.value)
@@ -385,6 +418,18 @@ class Theme:
         self.master.mixerEndAtEntry.config(bg=PistachioTheme.ENTRY_BG.value, fg=PistachioTheme.ENTRY_FG.value, disabledbackground=PistachioTheme.ENTRY_DB.value)
         self.master.mixerEndFillBtn.config(bg=PistachioTheme.BTN_BG.value, fg=PistachioTheme.BTN_FG.value, activebackground=PistachioTheme.BTN_ABG.value, activeforeground=PistachioTheme.BTN_AFG.value)
         self.master.fileToMixLabel.config(bg=PistachioTheme.BG.value, fg=PistachioTheme.FG.value)
+
+        self.master.bitShiftLabel.config(bg=PistachioTheme.LABEL_BG.value, fg=PistachioTheme.LABEL_FG.value, activebackground=PistachioTheme.BG.value, activeforeground=PistachioTheme.FG.value, selectcolor=PistachioTheme.BG.value)
+        self.master.bitShiftFrame.config(bg=PistachioTheme.BG.value)
+        self.master.bitShiftStartAtLabel.config(bg=PistachioTheme.LABEL_BG.value, fg=PistachioTheme.LABEL_FG.value)
+        self.master.bitShiftStartAtEntry.config(bg=PistachioTheme.ENTRY_BG.value, fg=PistachioTheme.ENTRY_FG.value, disabledbackground=PistachioTheme.ENTRY_DB.value)
+        self.master.bitShiftDirectionMenu.config(bg=PistachioTheme.BTN_BG.value, fg=PistachioTheme.BTN_FG.value, activebackground=PistachioTheme.BTN_ABG.value, activeforeground=PistachioTheme.BTN_AFG.value)
+        self.master.bitShiftAmountMenu.config(bg=PistachioTheme.BTN_BG.value, fg=PistachioTheme.BTN_FG.value, activebackground=PistachioTheme.BTN_ABG.value, activeforeground=PistachioTheme.BTN_AFG.value)
+        self.master.bitShiftGapLabel.config(bg=PistachioTheme.LABEL_BG.value, fg=PistachioTheme.LABEL_FG.value)
+        self.master.bitShiftGapEntry.config(bg=PistachioTheme.ENTRY_BG.value, fg=PistachioTheme.ENTRY_FG.value, disabledbackground=PistachioTheme.ENTRY_DB.value)
+        self.master.bitShiftEndAtLabel.config(bg=PistachioTheme.LABEL_BG.value, fg=PistachioTheme.LABEL_FG.value)
+        self.master.bitShiftEndtAtEntry.config(bg=PistachioTheme.ENTRY_BG.value, fg=PistachioTheme.ENTRY_FG.value, disabledbackground=PistachioTheme.ENTRY_DB.value)
+        self.master.bitShiftEndFillBtn.config(bg=PistachioTheme.BTN_BG.value, fg=PistachioTheme.BTN_FG.value, activebackground=PistachioTheme.BTN_ABG.value, activeforeground=PistachioTheme.BTN_AFG.value)
 
         self.master.bottomFrame.config(bg=PistachioTheme.BG.value)
         self.master.prevPageBtn.config(bg=PistachioTheme.BTN_BG.value, fg=PistachioTheme.BTN_FG.value, activebackground=PistachioTheme.BTN_ABG.value, activeforeground=PistachioTheme.BTN_AFG.value)

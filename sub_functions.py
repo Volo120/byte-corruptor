@@ -79,6 +79,12 @@ def info(buttonType: str) -> None:
             title="help",
             style=MB_OK | MB_ICONASTERISK
         )
+    elif buttonType == "bit shift amount":
+        return user32MessageBox(
+            message=f"specify the number of bits that will be used to (left/right) shift each byte.",
+            title="help",
+            style=MB_OK | MB_ICONASTERISK
+        )
     
 def randomizedAddSubOperators_HELP() -> None:
     return user32MessageBox(
@@ -204,6 +210,20 @@ def checkEntriesValuesType(var: int, **collection: sw.EntryCollection) -> bool:
     
     elif var == 6: # mixer
         for ent in (collection["mixe"]["entries"][0]):
+            try:
+                if len(ent.get()) == 0: raise se.EmptyEntry()
+            except se.EmptyEntry:
+                user32MessageBox(message="make sure to fill all empty fields")
+                return False
+            try:
+                int(ent.get())
+            except ValueError:
+                user32MessageBox(message="invalid symbols were inserted")
+                return False
+        return True
+    
+    elif var == 7: # bit shifter
+        for ent in (collection["bits"]["entries"][0]):
             try:
                 if len(ent.get()) == 0: raise se.EmptyEntry()
             except se.EmptyEntry:
