@@ -11,12 +11,12 @@ import app_widgets as aw
 class AppClass(Tk):
     def __init__(self):
         super().__init__()
-        self.v = "v4.0.2"
+        self.v = "v4.1.0"
         self.title(f"Byte Corruptor {self.v}")
         self.resizable(0, 0)
         self.iconbitmap(os.path.join(os.environ["WINDIR"], "System32", "systeminfo.exe")) # windows executable icon
 
-        self.selectedFilePath = None
+        self.selectedFilePath = ""
         self.savePath = None
 
         self.fileToMixWith = None
@@ -25,7 +25,7 @@ class AppClass(Tk):
         aw.init_appWidgets(self, pm, dw, sf, t, os, sw)
         dw.autoDisableAndEnable(self)
         dw.exclusiveToggle(self)
-        dw.prevAndNextSwitch(self, 0)
+        dw.prevAndNextSwitch(self, None)
 
     def runCorruption(self):
         if not sf.checkEntriesValuesType(
@@ -36,14 +36,15 @@ class AppClass(Tk):
             repl=self.replacerColl.register(),
             swap=self.swapperColl.register(),
             copy=self.copierColl.register(),
-            mixe=self.mixerColl.register()
+            mixe=self.mixerColl.register(),
+            bits=self.bitShifterColl.register()
         ): return
 
         if self.var.get() == 1:
-            incStartAt = self.incrementerStartEntry.get()
-            incEndAt = self.incrementerEndAtEntry.get()
-            incGap = self.incrementerGapEntry.get()
-            incInc = self.incrementerByEntry.get()
+            iStartAt = self.incrementerStartEntry.get()
+            iEndAt = self.incrementerEndAtEntry.get()
+            iGap = self.incrementerGapEntry.get()
+            iInc = self.incrementerByEntry.get()
             
         if self.var.get() == 2:
             rStartAt = self.randomizerStartEntry.get()
@@ -74,6 +75,13 @@ class AppClass(Tk):
             mStartAt = self.mixerStartEntry.get()
             mEndAt = self.mixerEndAtEntry.get()
             mGap = self.mixerGapEntry.get()
+
+        if self.var.get() == 7:
+            bsStartAt = self.bitShiftStartAtEntry.get()
+            bsShiftDirection = self.bitShiftDirectionVar.get()
+            bsShiftAmount = self.bitShiftAmount.get()
+            bsGap = self.bitShiftGapEntry.get()
+            bsEndAt = self.bitShiftEndtAtEntry.get()
             
         byteArray = []
         byteArray.clear()
@@ -91,7 +99,7 @@ class AppClass(Tk):
         reversedArray.clear()
         
         if self.reversedArray.get() and self.var.get() == 1:
-            byteArray[int(incStartAt):int(incEndAt)] = sf.reverseBytes(byteArray, incStartAt, incEndAt)
+            byteArray[int(iStartAt):int(iEndAt)] = sf.reverseBytes(byteArray, iStartAt, iEndAt)
 
         if self.reversedArray.get() and self.var.get() == 2:
             byteArray[int(rStartAt):int(rEndAt)] = sf.reverseBytes(byteArray, rStartAt, rEndAt)
@@ -107,18 +115,21 @@ class AppClass(Tk):
 
         if self.reversedArray.get() and self.var.get() == 6:
             byteArray[int(mStartAt):int(mEndAt)] = sf.reverseBytes(byteArray, mStartAt, mEndAt)
+        
+        if self.reversedArray.get() and self.var.get() == 7:
+            byteArray[int(bsStartAt):int(bsEndAt)] = sf.reverseBytes(byteArray, bsStartAt, bsEndAt)
 
         if self.var.get() == 1:
-            if int(incGap) <= 0: incGap = 1
-            for i in range(int(incStartAt), int(incEndAt), int(incGap)):
+            if int(iGap) <= 0: iGap = 1
+            for i in range(int(iStartAt), int(iEndAt), int(iGap)):
                 if self.randomizedOperators.get():
                     op = random.choice(["+", "-"])
                     if op == "+":
-                        byteArray[i] += int(incInc)
+                        byteArray[i] += int(iInc)
                     elif op == "-":
-                        byteArray[i] -= int(incInc)
+                        byteArray[i] -= int(iInc)
                 else:
-                    byteArray[i] += int(incInc)
+                    byteArray[i] += int(iInc)
                 if byteArray[i] > 255 or byteArray[i] < 0:
                     byteArray[i] %= 255
 
@@ -189,7 +200,17 @@ class AppClass(Tk):
                     mixIndex = 0
                 byteArray[i] = mixBytes[mixIndex]
                 mixIndex += 1
-                
+
+        if self.var.get() == 7:
+            if int(bsGap) <= 0: bsGap = 1
+            for i in range(int(bsStartAt), int(bsEndAt), int(bsGap)):
+                if bsShiftDirection == "left":
+                    byteArray[i] = byteArray[i] << bsShiftAmount
+                if bsShiftDirection == "right":
+                    byteArray[i] = byteArray[i] >> bsShiftAmount
+                if byteArray[i] > 255 or byteArray[i] < 0:
+                    byteArray[i] %= 255
+
         for b in byteArray:
             byte = b.to_bytes(1, "big")
             newFile.write(byte)

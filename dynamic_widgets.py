@@ -2,7 +2,7 @@ from tkinter import *
 from sub_functions import info
 
 def _setBottomBtnsLayout(self):
-    self.bottomFrame.pack(pady=10, side="bottom")
+    self.bottomFrame.pack(pady=10, side=BOTTOM)
     self.prevPageBtn.grid(row=0, column=0, padx=5)
     self.corruptBtn.grid(row=0, column=1)
     self.nextPageBtn.grid(row=0, column=2, padx=5)
@@ -16,8 +16,24 @@ def _setFileLayout(self):
     self.saveEntry.grid(row=1, column=1, padx=5)
     self.saveHelpBtn.grid(row=1, column=2, padx=5)
 
-def _setPageItems(self, pageNum):
-    if pageNum == 1:
+def _setPageItems(self):
+
+    if self.currentMenu == 2:
+        _setFileLayout(self)
+        self.bitShiftLabel.pack(pady=5)
+        self.bitShiftFrame.pack(pady=5)
+        self.bitShiftStartAtLabel.grid(row=0, column=0, padx=5)
+        self.bitShiftStartAtEntry.grid(row=0, column=1, padx=5)
+        self.bitShiftDirectionMenu.grid(row=0, column=2, padx=5)
+        self.bitShiftAmountMenu.grid(row=0, column=3)
+        self.bitShiftGapLabel.grid(row=0, column=4, padx=5)
+        self.bitShiftGapEntry.grid(row=0, column=5, padx=5)
+        self.bitShiftEndAtLabel.grid(row=0, column=6, padx=5)
+        self.bitShiftEndtAtEntry.grid(row=0, column=7, padx=5)
+        self.bitShiftEndFillBtn.grid(row=0, column=8, padx=5)
+    _setBottomBtnsLayout(self)
+
+    if self.currentMenu == 1:
         _setFileLayout(self)
         self.swapperLabel.pack(pady=5)
         self.swapperFrame.pack(pady=5)
@@ -59,7 +75,7 @@ def _setPageItems(self, pageNum):
         self.fileToMixLabel.pack(pady=3)
     _setBottomBtnsLayout(self)
 
-    if pageNum == 0:
+    if self.currentMenu == 0:
         _setFileLayout(self)
         self.incrementerLabel.pack(pady=5)
         self.incrementerFrame.pack(pady=5)
@@ -108,8 +124,19 @@ def _setPageItems(self, pageNum):
         self.replacerExclusiveCb.pack()
         _setBottomBtnsLayout(self)
 
-def prevAndNextSwitch(self, pageNum):
-    if pageNum == 0:
+def _switchLogic(self, btn, extraParam=None):
+    if btn == "PRESET": # loads the last saved page when preset file is loaded
+        self.currentMenu = extraParam
+    if btn == ">>>":
+        self.currentMenu += 1
+    if btn == "<<<":
+        self.currentMenu -= 1
+
+def prevAndNextSwitch(self, btn, extraParam=None):
+
+    _switchLogic(self, btn, extraParam)
+
+    if self.currentMenu == 0:
         self.prevPageBtn.config(state=DISABLED)
         self.nextPageBtn.config(state=NORMAL)
         self.swapperLabel.pack_forget()
@@ -151,8 +178,20 @@ def prevAndNextSwitch(self, pageNum):
         self.mixerEndFillBtn.grid_forget()
         self.fileToMixLabel.pack_forget()
 
-    if pageNum == 1:
-        self.nextPageBtn.config(state=DISABLED)
+        self.bitShiftLabel.pack_forget()
+        self.bitShiftFrame.pack_forget()
+        self.bitShiftStartAtLabel.grid_forget()
+        self.bitShiftStartAtEntry.grid_forget()
+        self.bitShiftDirectionMenu.grid_forget()
+        self.bitShiftAmountMenu.grid_forget()
+        self.bitShiftGapLabel.grid_forget()
+        self.bitShiftGapEntry.grid_forget()
+        self.bitShiftEndAtLabel.grid_forget()
+        self.bitShiftEndtAtEntry.grid_forget()
+        self.bitShiftEndFillBtn.grid_forget()
+
+    if self.currentMenu == 1:
+        self.nextPageBtn.config(state=NORMAL)
         self.prevPageBtn.config(state=NORMAL)
         self.topFrame.pack_forget()
         self.fileBtn.grid_forget()
@@ -212,8 +251,121 @@ def prevAndNextSwitch(self, pageNum):
         self.prevPageBtn.grid_forget()
         self.corruptBtn.grid_forget()
         self.nextPageBtn.grid_forget()
+
+        self.bitShiftLabel.pack_forget()
+        self.bitShiftFrame.pack_forget()
+        self.bitShiftStartAtLabel.grid_forget()
+        self.bitShiftStartAtEntry.grid_forget()
+        self.bitShiftDirectionMenu.grid_forget()
+        self.bitShiftAmountMenu.grid_forget()
+        self.bitShiftGapLabel.grid_forget()
+        self.bitShiftGapEntry.grid_forget()
+        self.bitShiftEndAtLabel.grid_forget()
+        self.bitShiftEndtAtEntry.grid_forget()
+        self.bitShiftEndFillBtn.grid_forget()
+
+    if self.currentMenu == 2:
+        self.nextPageBtn.config(state=DISABLED)
+        self.prevPageBtn.config(state=NORMAL)
+        self.topFrame.pack_forget()
+        self.fileBtn.grid_forget()
+        self.fileEntry.grid_forget()
+        self.fileHelpBtn.grid_forget()
+        self.saveBtn.grid_forget()
+        self.saveEntry.grid_forget()
+        self.saveHelpBtn.grid_forget()
+
+        self.incrementerLabel.pack_forget()
+        self.incrementerFrame.pack_forget()
+        self.incrementerStartAtLabel.grid_forget()
+        self.incrementerStartEntry.grid_forget()
+        self.sep1.grid_forget()
+        self.incrementerByLabel.grid_forget()
+        self.incrementerByEntry.grid_forget()
+        self.sep2.grid_forget()
+        self.incrementerGapLabel.grid_forget()
+        self.incrementerGapEntry.grid_forget()
+        self.sep3.grid_forget()
+        self.incrementerEndAtLabel.grid_forget()
+        self.incrementerEndAtEntry.grid_forget()
+        self.incrementerEndFillBtn.grid_forget()
+        self.sep4.grid_forget()
+
+        self.randomizerLabel.pack_forget()
+        self.randomizerFrame.pack_forget()
+        self.randomizerStartLabel.grid()
+        self.randomizerStartEntry.grid()
+        self.sep5.grid()
+        self.randomizerByLabel.grid()
+        self.randomizerByEntry.grid()
+        self.randomizerGapLabel.grid()
+        self.randomizerGapEntry.grid()
+        self.sep6.grid()
+        self.randomizerEndAtLabel.grid()
+        self.randomizerEndAtEntry.grid()
+        self.randomizerEndFillBtn.grid()
+        self.sep7.grid()
+
+        self.replacerLabel.pack_forget()
+        self.replacerFrame.pack_forget()
+        self.replacerStartLabel.grid_forget()
+        self.replacerStartEntry.grid_forget()
+        self.sep8.grid_forget()
+        self.replacerByLabel.grid_forget()
+        self.sep9.grid_forget()
+        self.replacerGapLabel.grid_forget()
+        self.replacerGapEntry.grid_forget()
+        self.sep10.grid_forget()
+        self.replacerEndAtLabel.grid_forget()
+        self.replacerEndAtEntry.grid_forget()
+        self.replacerEndFillBtn.grid_forget()
+        self.replacerExclusiveCb.pack_forget()
+        
+        self.swapperLabel.pack_forget()
+        self.swapperFrame.pack_forget()
+        self.swapperStartLabel.grid_forget()
+        self.swapperStartEntry.grid_forget()
+        self.sep11.grid_forget()
+        self.swapperByLabel.grid_forget()
+        self.swapperByEntry.grid_forget()
+        self.swapperGapLabel.grid_forget()
+        self.swapperGapEntry.grid_forget()
+        self.swapperEndAtLabel.grid_forget()
+        self.swapperEndAtEntry.grid_forget()
+        self.swapperEndFillBtn.grid_forget()
+
+        self.copierLabel.pack_forget()
+        self.copierFrame.pack_forget()
+        self.copierStartLabel.grid_forget()
+        self.copierStartEntry.grid_forget()
+        self.sep12.grid_forget()
+        self.copierByLabel.grid_forget()
+        self.copierByEntry.grid_forget()
+        self.copierGapLabel.grid_forget()
+        self.copierGapEntry.grid_forget()
+        self.copierEndAtLabel.grid_forget()
+        self.copierEndAtEntry.grid_forget()
+        self.copierEndFillBtn.grid_forget()
+
+        self.mixerLabel.pack_forget()
+        self.mixerFrame.pack_forget()
+        self.mixerStartLabel.grid_forget()
+        self.mixerStartEntry.grid_forget()
+        self.sep13.grid_forget()
+        self.fileToMixBtn.grid_forget()
+        self.mixerGapLabel.grid_forget()
+        self.mixerGapEntry.grid_forget()
+        self.mixerEndAtLabel.grid_forget()
+        self.mixerEndAtEntry.grid_forget()
+        self.mixerEndFillBtn.grid_forget()
+        self.fileToMixLabel.pack_forget()
+
+        self.bottomFrame.pack_forget()
+        self.prevPageBtn.grid_forget()
+        self.corruptBtn.grid_forget()
+        self.nextPageBtn.grid_forget()
     
-    _setPageItems(self, pageNum)
+    _setPageItems(self)
 
 def exclusiveToggle(self):
     exclusive = self.exclusive.get()
@@ -296,6 +448,16 @@ def autoDisableAndEnable(self):
         self.mixerEndFillBtn.config(state=DISABLED)
         self.fileToMixLabel.config(state=DISABLED)
 
+        self.bitShiftStartAtLabel.config(state=DISABLED)
+        self.bitShiftStartAtEntry.config(state=DISABLED)
+        self.bitShiftDirectionMenu.config(state=DISABLED)
+        self.bitShiftAmountMenu.config(state=DISABLED)
+        self.bitShiftGapLabel.config(state=DISABLED)
+        self.bitShiftGapEntry.config(state=DISABLED)
+        self.bitShiftEndAtLabel.config(state=DISABLED)
+        self.bitShiftEndtAtEntry.config(state=DISABLED)
+        self.bitShiftEndFillBtn.config(state=DISABLED)
+
     elif self.var.get() == 2:
         self.randomizerStartLabel.config(state=NORMAL)
         self.randomizerStartEntry.config(state=NORMAL)
@@ -360,6 +522,16 @@ def autoDisableAndEnable(self):
         self.mixerEndAtEntry.config(state=DISABLED)
         self.mixerEndFillBtn.config(state=DISABLED)
         self.fileToMixLabel.config(state=DISABLED)
+
+        self.bitShiftStartAtLabel.config(state=DISABLED)
+        self.bitShiftStartAtEntry.config(state=DISABLED)
+        self.bitShiftDirectionMenu.config(state=DISABLED)
+        self.bitShiftGapLabel.config(state=DISABLED)
+        self.bitShiftGapEntry.config(state=DISABLED)
+        self.bitShiftAmountMenu.config(state=DISABLED)
+        self.bitShiftEndAtLabel.config(state=DISABLED)
+        self.bitShiftEndtAtEntry.config(state=DISABLED)
+        self.bitShiftEndFillBtn.config(state=DISABLED)
 
     elif self.var.get() == 3:
         self.replacerStartLabel.config(state=NORMAL)
@@ -426,6 +598,16 @@ def autoDisableAndEnable(self):
         self.mixerEndFillBtn.config(state=DISABLED)
         self.fileToMixLabel.config(state=DISABLED)
 
+        self.bitShiftStartAtLabel.config(state=DISABLED)
+        self.bitShiftStartAtEntry.config(state=DISABLED)
+        self.bitShiftDirectionMenu.config(state=DISABLED)
+        self.bitShiftGapLabel.config(state=DISABLED)
+        self.bitShiftGapEntry.config(state=DISABLED)
+        self.bitShiftAmountMenu.config(state=DISABLED)
+        self.bitShiftEndAtLabel.config(state=DISABLED)
+        self.bitShiftEndtAtEntry.config(state=DISABLED)
+        self.bitShiftEndFillBtn.config(state=DISABLED)
+
     elif self.var.get() == 4:
         self.swapperStartLabel.config(state=NORMAL)
         self.swapperStartEntry.config(state=NORMAL)
@@ -490,6 +672,16 @@ def autoDisableAndEnable(self):
         self.mixerEndAtEntry.config(state=DISABLED)
         self.mixerEndFillBtn.config(state=DISABLED)
         self.fileToMixLabel.config(state=DISABLED)
+
+        self.bitShiftStartAtLabel.config(state=DISABLED)
+        self.bitShiftStartAtEntry.config(state=DISABLED)
+        self.bitShiftDirectionMenu.config(state=DISABLED)
+        self.bitShiftGapLabel.config(state=DISABLED)
+        self.bitShiftGapEntry.config(state=DISABLED)
+        self.bitShiftAmountMenu.config(state=DISABLED)
+        self.bitShiftEndAtLabel.config(state=DISABLED)
+        self.bitShiftEndtAtEntry.config(state=DISABLED)
+        self.bitShiftEndFillBtn.config(state=DISABLED)
 
     elif self.var.get() == 5:
         self.copierStartLabel.config(state=NORMAL)
@@ -556,6 +748,16 @@ def autoDisableAndEnable(self):
         self.mixerEndFillBtn.config(state=DISABLED)
         self.fileToMixLabel.config(state=DISABLED)
 
+        self.bitShiftStartAtLabel.config(state=DISABLED)
+        self.bitShiftStartAtEntry.config(state=DISABLED)
+        self.bitShiftDirectionMenu.config(state=DISABLED)
+        self.bitShiftGapLabel.config(state=DISABLED)
+        self.bitShiftGapEntry.config(state=DISABLED)
+        self.bitShiftAmountMenu.config(state=DISABLED)
+        self.bitShiftEndAtLabel.config(state=DISABLED)
+        self.bitShiftEndtAtEntry.config(state=DISABLED)
+        self.bitShiftEndFillBtn.config(state=DISABLED)
+
     elif self.var.get() == 6:
         self.mixerStartLabel.config(state=NORMAL)
         self.mixerStartEntry.config(state=NORMAL)
@@ -612,6 +814,91 @@ def autoDisableAndEnable(self):
         self.incrementerEndFillBtn.config(state=DISABLED)
 
         self.randomizerStartLabel.config(state=DISABLED)
+        self.randomizerStartEntry.config(state=DISABLED)
+        self.randomizerEndAtLabel.config(state=DISABLED)
+        self.randomizerEndAtEntry.config(state=DISABLED)
+        self.randomizerByLabel.config(state=DISABLED)
+        self.randomizerByEntry.config(state=DISABLED)
+        self.randomizerGapLabel.config(state=DISABLED)
+        self.randomizerGapEntry.config(state=DISABLED)
+        self.randomizerEndFillBtn.config(state=DISABLED)
+        
+        self.bitShiftStartAtLabel.config(state=DISABLED)
+        self.bitShiftStartAtEntry.config(state=DISABLED)
+        self.bitShiftDirectionMenu.config(state=DISABLED)
+        self.bitShiftGapLabel.config(state=DISABLED)
+        self.bitShiftGapEntry.config(state=DISABLED)
+        self.bitShiftAmountMenu.config(state=DISABLED)
+        self.bitShiftEndAtLabel.config(state=DISABLED)
+        self.bitShiftEndtAtEntry.config(state=DISABLED)
+        self.bitShiftEndFillBtn.config(state=DISABLED)
+
+    elif self.var.get() == 7:
+        self.bitShiftLabel.config(state=NORMAL)
+        self.bitShiftStartAtLabel.config(state=NORMAL)
+        self.bitShiftStartAtEntry.config(state=NORMAL)
+        self.bitShiftDirectionMenu.config(state=NORMAL)
+        self.bitShiftGapLabel.config(state=NORMAL)
+        self.bitShiftGapEntry.config(state=NORMAL)
+        self.bitShiftAmountMenu.config(state=NORMAL)
+        self.bitShiftEndAtLabel.config(state=NORMAL)
+        self.bitShiftEndtAtEntry.config(state=NORMAL)
+        self.bitShiftEndFillBtn.config(state=NORMAL)
+
+        self.mixerStartLabel.config(state=DISABLED)
+        self.mixerStartEntry.config(state=DISABLED)
+        self.sep13.config(state=DISABLED)
+        self.fileToMixBtn.config(state=DISABLED)
+        self.mixerByEntry.config(state=DISABLED)
+        self.mixerGapLabel.config(state=DISABLED)
+        self.mixerGapEntry.config(state=DISABLED)
+        self.mixerEndAtLabel.config(state=DISABLED)
+        self.mixerEndAtEntry.config(state=DISABLED)
+        self.mixerEndFillBtn.config(state=DISABLED)
+        self.fileToMixLabel.config(state=DISABLED)
+
+        self.copierStartLabel.config(state=DISABLED)
+        self.copierStartEntry.config(state=DISABLED)
+        self.copierEndAtLabel.config(state=DISABLED)
+        self.copierEndAtEntry.config(state=DISABLED)
+        self.copierByLabel.config(state=DISABLED)
+        self.copierByEntry.config(state=DISABLED)
+        self.copierGapLabel.config(state=DISABLED)
+        self.copierGapEntry.config(state=DISABLED)
+        self.copierEndFillBtn.config(state=DISABLED)
+
+        self.swapperStartLabel.config(state=DISABLED)
+        self.swapperStartEntry.config(state=DISABLED)
+        self.swapperEndAtLabel.config(state=DISABLED)
+        self.swapperEndAtEntry.config(state=DISABLED)
+        self.swapperByLabel.config(state=DISABLED)
+        self.swapperByEntry.config(state=DISABLED)
+        self.swapperGapLabel.config(state=DISABLED)
+        self.swapperGapEntry.config(state=DISABLED)
+        self.swapperEndFillBtn.config(state=DISABLED)
+
+        self.replacerStartLabel.config(state=DISABLED)
+        self.replacerStartEntry.config(state=DISABLED)
+        self.replacerEndAtLabel.config(state=DISABLED)
+        self.replacerEndAtEntry.config(state=DISABLED)
+        self.replacerByLabel.config(state=DISABLED)
+        self.replacerByEntry.config(state=DISABLED)
+        self.replacerGapLabel.config(state=DISABLED)
+        self.replacerGapEntry.config(state=DISABLED)
+        self.replacerEndFillBtn.config(state=DISABLED)
+        self.replacerNonExclusiveEntry.config(state=DISABLED)
+        self.replacerExclusiveCb.config(state=DISABLED)
+
+        self.incrementerStartAtLabel.config(state=DISABLED)
+        self.incrementerStartEntry.config(state=DISABLED)
+        self.incrementerEndAtLabel.config(state=DISABLED)
+        self.incrementerEndAtEntry.config(state=DISABLED)
+        self.incrementerByLabel.config(state=DISABLED)
+        self.incrementerByEntry.config(state=DISABLED)
+        self.incrementerGapLabel.config(state=DISABLED)
+        self.incrementerGapEntry.config(state=DISABLED)
+        self.incrementerEndFillBtn.config(state=DISABLED)
+
         self.randomizerStartEntry.config(state=DISABLED)
         self.randomizerEndAtLabel.config(state=DISABLED)
         self.randomizerEndAtEntry.config(state=DISABLED)

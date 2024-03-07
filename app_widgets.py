@@ -13,8 +13,10 @@ def init_appWidgets(self, pm: pm, dw: dw, sf: sf, t: t, os: os, sw: sw) -> None:
     self.swapperColl     = sw.EntryCollection()
     self.copierColl      = sw.EntryCollection()
     self.mixerColl       = sw.EntryCollection()
+    self.bitShifterColl  = sw.EntryCollection()
 
     self.var = IntVar(self, 1)
+    self.currentMenu = 0
 
     self.defaultThemeVar = BooleanVar(self, True)
     self.darkThemeVar = BooleanVar(self, False)
@@ -23,6 +25,9 @@ def init_appWidgets(self, pm: pm, dw: dw, sf: sf, t: t, os: os, sw: sw) -> None:
     self.exclusive = BooleanVar(self, True)
     self.randomizedOperators = BooleanVar(self, False)
     self.reversedArray = BooleanVar(self, False)
+
+    self.bitShiftDirectionVar = StringVar(self, "left")
+    self.bitShiftAmount = IntVar(self, 0)
 
     self.menuBar = Menu(self)
     
@@ -60,7 +65,7 @@ def init_appWidgets(self, pm: pm, dw: dw, sf: sf, t: t, os: os, sw: sw) -> None:
     self.fileEntry = Text(self.topFrame, width=50, height=1, state=DISABLED)
     self.fileEntry.grid(row=0, column=1, padx=5)
 
-    self.fileHelpBtn = Button(self.topFrame, text="?", command=lambda: sf.info(buttonType="add file"))
+    self.fileHelpBtn = Button(self.topFrame, text="?", command=lambda: sf.info(buttonType="add file"), padx=5)
     self.fileHelpBtn.grid(row=0, column=2, padx=5)
     
     self.saveBtn = Button(self.topFrame, text="save to…", command=lambda: sf.saveToPath(self))
@@ -69,7 +74,7 @@ def init_appWidgets(self, pm: pm, dw: dw, sf: sf, t: t, os: os, sw: sw) -> None:
     self.saveEntry = Text(self.topFrame, width=50, height=1, state=DISABLED)
     self.saveEntry.grid(row=1, column=1, padx=5)
 
-    self.saveHelpBtn = Button(self.topFrame, text="?", command=lambda: sf.info(buttonType="save file"))
+    self.saveHelpBtn = Button(self.topFrame, text="?", command=lambda: sf.info(buttonType="save file"), padx=5)
     self.saveHelpBtn.grid(row=1, column=2, padx=5)
 
     # **********
@@ -388,16 +393,70 @@ def init_appWidgets(self, pm: pm, dw: dw, sf: sf, t: t, os: os, sw: sw) -> None:
 
     # **********
 
+    # page 3 items
+
+    self.bitShiftLabel = Radiobutton(self, text="Bitwise Shifter", value=7, variable=self.var, command=lambda: dw.autoDisableAndEnable(self))
+
+    self.bitShiftFrame = Frame(self)
+
+    self.bitShiftStartAtLabel = Label(self.bitShiftFrame, text="start at", cursor="hand2")
+    self.bitShiftStartAtLabel.bind("<Button-1>", lambda x=None: sf.info("start at"))
+
+    self.bitShiftStartAtEntry = Entry(self.bitShiftFrame, width=9)
+    self.bitShiftStartAtEntry.insert(END, 0)
+
+    self.bitShiftDirectionMenu = Menubutton(self.bitShiftFrame, relief=RAISED, text="shift direction")
+    self.bitShiftDirectionMenu.menu = Menu(self.bitShiftDirectionMenu, tearoff=0)
+    self.bitShiftDirectionMenu.config(menu=self.bitShiftDirectionMenu.menu)
+    self.bitShiftDirectionMenu.menu.add_radiobutton(label="left", value="left", variable=self.bitShiftDirectionVar)
+    self.bitShiftDirectionMenu.menu.add_radiobutton(label="right", value="right", variable=self.bitShiftDirectionVar)
+
+    self.bitShiftAmountMenu = Menubutton(self.bitShiftFrame, relief=RAISED, text="shift amount")
+    self.bitShiftAmountMenu.menu = Menu(self.bitShiftAmountMenu, tearoff=0)
+    self.bitShiftAmountMenu.config(menu=self.bitShiftAmountMenu.menu)
+    self.bitShiftAmountMenu.menu.add_radiobutton(label="0", value=0, variable=self.bitShiftAmount)
+    self.bitShiftAmountMenu.menu.add_radiobutton(label="1", value=1, variable=self.bitShiftAmount)
+    self.bitShiftAmountMenu.menu.add_radiobutton(label="2", value=2, variable=self.bitShiftAmount)
+    self.bitShiftAmountMenu.menu.add_radiobutton(label="3", value=3, variable=self.bitShiftAmount)
+    self.bitShiftAmountMenu.menu.add_radiobutton(label="4", value=4, variable=self.bitShiftAmount)
+    self.bitShiftAmountMenu.menu.add_radiobutton(label="5", value=5, variable=self.bitShiftAmount)
+    self.bitShiftAmountMenu.menu.add_radiobutton(label="6", value=6, variable=self.bitShiftAmount)
+    self.bitShiftAmountMenu.menu.add_radiobutton(label="7", value=7, variable=self.bitShiftAmount)
+    self.bitShiftAmountMenu.menu.add_radiobutton(label="8", value=8, variable=self.bitShiftAmount)
+    self.bitShiftAmountMenu.menu.add_command(label="help?", command=lambda: sf.info("bit shift amount"))
+
+    self.bitShiftGapLabel = Label(self.bitShiftFrame, text="gap size", cursor="hand2")
+    self.bitShiftGapLabel.bind("<Button-1>", lambda x=None: sf.info("gap"))
+
+    self.bitShiftGapEntry = Entry(self.bitShiftFrame, width=9)
+    self.bitShiftGapEntry.insert(END, 0)
+
+    self.bitShiftEndAtLabel = Label(self.bitShiftFrame, text="end at", cursor="hand2")
+    self.bitShiftEndAtLabel.bind("<Button-1>", lambda x=None: sf.info("end at"))
+
+    self.bitShiftEndtAtEntry = Entry(self.bitShiftFrame, width=9)
+    self.bitShiftEndtAtEntry.insert(END, 0)
+
+    self.bitShiftEndFillBtn = Button(self.bitShiftFrame, text="very last byte", command=lambda: (self.bitShiftEndtAtEntry.delete(0, END), self.bitShiftEndtAtEntry.insert(END, os.path.getsize(self.selectedFilePath))) if len(self.selectedFilePath) > 0 else sf.user32MessageBox("you haven't selected a file yet.", style=sf.MB_ICONEXCLAMATION))
+
+    self.bitShifterColl.setEntry(
+        self.bitShiftStartAtEntry,
+        self.bitShiftGapEntry,
+        self.bitShiftEndtAtEntry
+    )
+
+    # **********
+
     self.bottomFrame = Frame(self)
     self.bottomFrame.pack(pady=10, side="bottom")
 
-    self.prevPageBtn = Button(self.bottomFrame, text="<<<", font=("Helvetica", 15, "bold"), state=NORMAL, command=lambda: dw.prevAndNextSwitch(self, 0))
+    self.prevPageBtn = Button(self.bottomFrame, text="<<<", font=("Helvetica", 15, "bold"), state=NORMAL, command=lambda: dw.prevAndNextSwitch(self, "<<<"))
     self.prevPageBtn.grid(row=0, column=0, padx=5)
 
     self.corruptBtn = Button(self.bottomFrame, text="Corrupt", font=("Helvetica", 20, "bold"), state=DISABLED, command=self.runCorruption)
     self.corruptBtn.grid(row=0, column=1)
 
-    self.nextPageBtn = Button(self.bottomFrame, text=">>>", font=("Helvetica", 15, "bold"), state=NORMAL, command=lambda: dw.prevAndNextSwitch(self, 1))
+    self.nextPageBtn = Button(self.bottomFrame, text=">>>", font=("Helvetica", 15, "bold"), state=NORMAL, command=lambda: dw.prevAndNextSwitch(self, ">>>"))
     self.nextPageBtn.grid(row=0, column=2, padx=5)
 
     # **********
