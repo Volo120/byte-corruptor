@@ -291,9 +291,11 @@ class PresetWindow(Toplevel):
         if self.master.pistachioThemeVar.get():
             self.t.setPistachioTheme()
 
+        if str(self.master.currentMenu) != str(data["vars"]["currentMenu"]): # don't load page if it's already in use
+            dw.prevAndNextSwitch(self.master, "PRESET", data["vars"]["currentMenu"])
+
         dw.autoDisableAndEnable(self.master)
         dw.exclusiveToggle(self.master)
-        dw.prevAndNextSwitch(self.master, "PRESET", data["vars"]["currentMenu"])
         self.master.corruptBtn.config(state=NORMAL)
 
         self.destroy()

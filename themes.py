@@ -262,7 +262,7 @@ class Theme:
         self.master.swapperEndAtEntry.config(bg=LightTheme.ENTRY_BG.value, fg=LightTheme.ENTRY_FG.value, disabledbackground=LightTheme.ENTRY_DB.value)
         self.master.swapperEndFillBtn.config(bg=LightTheme.BTN_BG.value, fg=LightTheme.BTN_FG.value, activebackground=LightTheme.BTN_ABG.value, activeforeground=LightTheme.BTN_AFG.value)
 
-        self.master.copierLabel.config(bg=LightTheme.LABEL_BG.value, fg=LightTheme.LABEL_FG.value, activebackground=LightTheme.BG.value, activeforeground=LightTheme.FG.value, selectcolor=LightTheme.BG.value)
+        self.master.copierLabel.config(bg=LightTheme.LABEL_BG.value, fg=LightTheme.LABEL_FG.value, activebackground=LightTheme.BG.value, activeforeground=LightTheme.FG.value, selectcolor=LightTheme.ENTRY_BG.value)
         self.master.copierFrame.config(bg=LightTheme.BG.value)
         self.master.copierStartLabel.config(bg=LightTheme.LABEL_BG.value, fg=LightTheme.LABEL_FG.value)
         self.master.copierStartEntry.config(bg=LightTheme.ENTRY_BG.value, fg=LightTheme.ENTRY_FG.value, disabledbackground=LightTheme.ENTRY_DB.value)
@@ -275,7 +275,7 @@ class Theme:
         self.master.copierEndAtEntry.config(bg=LightTheme.ENTRY_BG.value, fg=LightTheme.ENTRY_FG.value, disabledbackground=LightTheme.ENTRY_DB.value)
         self.master.copierEndFillBtn.config(bg=LightTheme.BTN_BG.value, fg=LightTheme.BTN_FG.value, activebackground=LightTheme.BTN_ABG.value, activeforeground=LightTheme.BTN_AFG.value)
 
-        self.master.mixerLabel.config(bg=LightTheme.LABEL_BG.value, fg=LightTheme.LABEL_FG.value, activebackground=LightTheme.BG.value, activeforeground=LightTheme.FG.value, selectcolor=LightTheme.BG.value)
+        self.master.mixerLabel.config(bg=LightTheme.LABEL_BG.value, fg=LightTheme.LABEL_FG.value, activebackground=LightTheme.BG.value, activeforeground=LightTheme.FG.value, selectcolor=LightTheme.ENTRY_BG.value)
         self.master.mixerFrame.config(bg=LightTheme.BG.value)
         self.master.mixerStartLabel.config(bg=LightTheme.LABEL_BG.value, fg=LightTheme.LABEL_FG.value)
         self.master.mixerStartEntry.config(bg=LightTheme.ENTRY_BG.value, fg=LightTheme.ENTRY_FG.value, disabledbackground=LightTheme.ENTRY_DB.value)
@@ -289,7 +289,7 @@ class Theme:
         self.master.mixerEndFillBtn.config(bg=LightTheme.BTN_BG.value, fg=LightTheme.BTN_FG.value, activebackground=LightTheme.BTN_ABG.value, activeforeground=LightTheme.BTN_AFG.value)
         self.master.fileToMixLabel.config(bg=LightTheme.BG.value, fg=LightTheme.FG.value)
 
-        self.master.bitShiftLabel.config(bg=LightTheme.LABEL_BG.value, fg=LightTheme.LABEL_FG.value, activebackground=LightTheme.BG.value, activeforeground=LightTheme.FG.value, selectcolor=LightTheme.BG.value)
+        self.master.bitShiftLabel.config(bg=LightTheme.LABEL_BG.value, fg=LightTheme.LABEL_FG.value, activebackground=LightTheme.BG.value, activeforeground=LightTheme.FG.value, selectcolor=LightTheme.ENTRY_BG.value)
         self.master.bitShiftFrame.config(bg=LightTheme.BG.value)
         self.master.bitShiftStartAtLabel.config(bg=LightTheme.LABEL_BG.value, fg=LightTheme.LABEL_FG.value)
         self.master.bitShiftStartAtEntry.config(bg=LightTheme.ENTRY_BG.value, fg=LightTheme.ENTRY_FG.value, disabledbackground=LightTheme.ENTRY_DB.value)

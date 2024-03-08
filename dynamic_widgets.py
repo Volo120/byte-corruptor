@@ -133,9 +133,7 @@ def _switchLogic(self, btn, extraParam=None):
         self.currentMenu -= 1
 
 def prevAndNextSwitch(self, btn, extraParam=None):
-
     _switchLogic(self, btn, extraParam)
-
     if self.currentMenu == 0:
         self.prevPageBtn.config(state=DISABLED)
         self.nextPageBtn.config(state=NORMAL)
