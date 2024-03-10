@@ -11,7 +11,7 @@ import app_widgets as aw
 class AppClass(Tk):
     def __init__(self):
         super().__init__()
-        self.v = "v4.1.1"
+        self.v = "v4.1.2"
         self.title(f"Byte Corruptor {self.v}")
         self.resizable(0, 0)
         self.iconbitmap(os.path.join(os.environ["WINDIR"], "System32", "systeminfo.exe")) # windows executable icon
@@ -193,10 +193,10 @@ class AppClass(Tk):
                 mixByte = mixFile.read(1)
                 intMixByte = int.from_bytes(mixByte, "big")
                 mixBytes.append(intMixByte)
-
+            
             if int(mGap) <= 0: mGap = 1
             for i in range(int(mStartAt), int(mEndAt), int(mGap)):
-                if mixIndex > len(mixBytes):
+                if mixIndex == len(mixBytes):
                     mixIndex = 0
                 byteArray[i] = mixBytes[mixIndex]
                 mixIndex += 1
