@@ -11,7 +11,7 @@ import app_widgets as aw
 class AppClass(Tk):
     def __init__(self):
         super().__init__()
-        self.v = "v4.1.2"
+        self.v = "v4.1.3"
         self.title(f"Byte Corruptor {self.v}")
         self.resizable(0, 0)
         self.iconbitmap(os.path.join(os.environ["WINDIR"], "System32", "systeminfo.exe")) # windows executable icon
@@ -136,16 +136,13 @@ class AppClass(Tk):
         if self.var.get() == 2:
             if int(rGap) <= 0: rGap = 1
             for i in range(int(rStartAt), int(rEndAt), int(rGap)):
-                if self.randomizedOperators.get():
-                    op = random.choice(["+", "-"])
-                    if op == "+":
-                        byteArray[i] += random.randint(int(rMinMax[0]), int(rMinMax[1]))
-                    elif op == "-":
-                        byteArray[i] -= random.randint(int(rMinMax[0]), int(rMinMax[1]))
-                else:
-                    byteArray[i] += random.randint(int(rMinMax[0]), int(rMinMax[1]))
-
-                if byteArray[i] > 255 or byteArray[i] < 0:
+                min_, max_ = int(rMinMax[0]), int(rMinMax[1])
+                if min_ == max_ or max_ == min_: return sf.user32MessageBox("min/max must not be equal")
+                try:
+                    byteArray[i] = random.randint(abs(min_), abs(max_))
+                except ValueError:
+                    byteArray[i] = random.randint(abs(max_), abs(min_))
+                if byteArray[i] > 255:
                     byteArray[i] %= 255
 
         if self.var.get() == 3:
