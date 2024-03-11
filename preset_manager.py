@@ -2,7 +2,7 @@ from tkinter import *
 import themes as t
 import json, os
 import dynamic_widgets as dw
-from sub_functions import user32MessageBox, MB_OK, MB_ICONSTOP
+from sub_functions import user32MessageBox, MB_OK, MB_ICONSTOP, MB_YESNO, IDYES, IDNO, MB_ICONQUESTION
 
 class PresetWindow(Toplevel):
     def __init__(self, master) -> None:
@@ -12,14 +12,23 @@ class PresetWindow(Toplevel):
         self.resizable(0, 0)
         self.wm_attributes("-toolwindow", True)
         self.wm_attributes("-topmost", True)
+        self.bind("<Escape>", lambda x=None: self.destroy())
 
         self.saveFolder = os.path.abspath(".")+"\\presets\\"
 
         self.savePathLabel = Label(self, text=self.saveFolder)
         self.savePathLabel.pack(pady=5)
 
-        self.presetsListBox = Listbox(self, width=32, height=10, justify=CENTER, activestyle=DOTBOX)
-        self.presetsListBox.pack(pady=10)
+        self.presetsListBoxFrame = Frame(self)
+        self.presetsListBoxFrame.pack(pady=10)
+
+        self.presetsListBox = Listbox(self.presetsListBoxFrame, width=38, height=10, justify=CENTER, activestyle=DOTBOX)
+        self.presetsListBox.pack(side=LEFT)
+
+        self.rightScrollbar = Scrollbar(self.presetsListBoxFrame, command=self.presetsListBox.yview)
+        self.rightScrollbar.pack(side=RIGHT, fill=Y)
+
+        self.presetsListBox.config(yscrollcommand=self.rightScrollbar.set)
 
         self.buttonsFrame = Frame(self)
         self.buttonsFrame.pack(pady=5)
@@ -147,7 +156,17 @@ class PresetWindow(Toplevel):
             }
         }
 
-        open(self.saveFolder+name+".json", "w")
+        if os.path.exists(self.saveFolder+name+".json"):
+            userChoice = user32MessageBox(
+                message="it seems like the file \"{0}\" already exists, would you like to overwrite it?".format((self.saveFolder+name+".json").split("\\")[-1]),
+                title="wait",
+                style= MB_YESNO
+            )
+
+            if userChoice == IDNO:
+                parent.e.focus_force()
+                return
+
         with open(self.saveFolder+name+".json", "w") as file:
             json.dump(newData, file, indent=4)
 
@@ -171,17 +190,26 @@ class PresetWindow(Toplevel):
 
         w.ok = Button(w.f, text="OK", width=10, command=lambda: self._createFile(w.e.get(), w))
         w.ok.grid(row=0, column=0, padx=5)
+        w.bind("<Return>", lambda x=None: self._createFile(w.e.get(), w))
 
         w.cancel = Button(w.f, text="Cancel", width=10, command=w.destroy)
         w.cancel.grid(row=0, column=1, padx=5)
+        w.bind("<Escape>", lambda x=None: w.destroy())
 
+        w.e.focus_force()
         self.t.setPresetManagerThemeCreate(w)
 
     def delete(self):
         fileToDel: str = self.saveFolder+self.presetsListBox.get(ACTIVE)
         if self.presetsListBox.get(ACTIVE) == "empty" and not os.path.isfile(fileToDel):
             return
-        os.remove(fileToDel)
+        userChoice = user32MessageBox(
+            message="do you want to delete \"{0}\"?".format(fileToDel.split("\\")[-1]),
+            title="wait",
+            style=MB_YESNO | MB_ICONQUESTION
+        )
+        if userChoice == IDYES:
+            os.remove(fileToDel)
         self._scanFolder()
 
     def load(self):
