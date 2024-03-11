@@ -1,16 +1,22 @@
 from tkinter import *
-import ctypes
+import ctypes, os
 import special_widgets as sw
 import special_errors as se
 from tkinter.filedialog import *
 
 MB_OK = 0x00000000
+MB_YESNO = 0x00000004
+
 MB_ICONEXCLAMATION = 0x00000030
 MB_ICONASTERISK = 0x00000040
 MB_ICONSTOP = 0x00000010
+MB_ICONQUESTION = 0x00000020
+
+IDYES = 6
+IDNO = 7
 
 def user32MessageBox(message: str, title: str="warning", style: int=MB_OK | MB_ICONEXCLAMATION):
-    ctypes.windll.user32.MessageBoxW(None, message, title, style)
+    return ctypes.windll.user32.MessageBoxW(None, message, title, style)
 
 def info(buttonType: str) -> None:
     if buttonType == "add file":
@@ -88,7 +94,7 @@ def info(buttonType: str) -> None:
     
 def randomizedAddSubOperators_HELP() -> None:
     return user32MessageBox(
-        message="when this option is enabled, the corruptor will randomly increment and decrement byte values (this functionality works with Incrementer and Randomizer only)",
+        message="when this option is enabled, the corruptor will randomly increment and decrement byte values (this functionality works with Incrementer only)",
         title="help",
         style=MB_OK | MB_ICONASTERISK
     )
