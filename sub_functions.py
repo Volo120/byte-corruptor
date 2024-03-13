@@ -1,5 +1,5 @@
 from tkinter import *
-import ctypes, os
+import ctypes
 import special_widgets as sw
 import special_errors as se
 from tkinter.filedialog import *
@@ -106,6 +106,165 @@ def invertFileBytes_HELP() -> None:
         style=MB_OK | MB_ICONASTERISK
     )
 
+def hexModeToggle(self):
+    incrementerColl = self.incrementerColl.register()
+    randomizerColl = self.randomizerColl.register()
+    replacerColl = self.replacerColl.register()
+    swapperColl = self.swapperColl.register()
+    copierColl = self.copierColl.register()
+    mixerColl = self.mixerColl.register()
+    bitShifterColl = self.bitShifterColl.register()
+
+    ent: Entry
+    if self.hexMode.get():
+        try:
+            for ent in incrementerColl["entries"][0]:
+                ent.config(state=NORMAL)
+                dec = int(ent.get())
+                ent.delete(0, END)
+                ent.insert(0, hex(dec)[2:].upper())
+                if self.var.get() != 1:
+                    ent.config(state=DISABLED)
+            
+            for ent in randomizerColl["entries"][0]:
+                ent.config(state=NORMAL)
+                if isinstance(ent, sw.Entry):
+                    min_, max_ = ent.get("/")
+                    ent.delete(0, END)
+                    ent.insert(0, "{0}/{1}".format(hex(int(min_))[2:].upper(), hex(int(max_))[2:].upper()))
+                else:
+                    dec = int(ent.get())
+                    ent.delete(0, END)
+                    ent.insert(0, hex(dec)[2:].upper())
+                if self.var.get() != 2:
+                    ent.config(state=DISABLED)
+
+            for ent in replacerColl["entries"][0]:
+                ent.config(state=NORMAL)
+                if isinstance(ent, sw.Entry):
+                    org, new = ent.get("/")
+                    ent.delete(0, END)
+                    ent.insert(0, "{0}/{1}".format(hex(int(org))[2:].upper(), hex(int(new))[2:].upper()))
+                else:
+                    dec = int(ent.get())
+                    ent.delete(0, END)
+                    ent.insert(0, hex(dec)[2:].upper())
+                if self.var.get() != 3:
+                    ent.config(state=DISABLED)
+
+            for ent in swapperColl["entries"][0]:
+                ent.config(state=NORMAL)
+                dec = int(ent.get())
+                ent.delete(0, END)
+                ent.insert(0, hex(dec)[2:].upper())
+                if self.var.get() != 4:
+                    ent.config(state=DISABLED)
+
+            for ent in copierColl["entries"][0]:
+                ent.config(state=NORMAL)
+                dec = int(ent.get())
+                ent.delete(0, END)
+                ent.insert(0, hex(dec)[2:].upper())
+                if self.var.get() != 5:
+                    ent.config(state=DISABLED)
+
+            for ent in mixerColl["entries"][0]:
+                ent.config(state=NORMAL)
+                dec = int(ent.get())
+                ent.delete(0, END)
+                ent.insert(0, hex(dec)[2:].upper())
+                if self.var.get() != 6:
+                    ent.config(state=DISABLED)
+
+            for ent in bitShifterColl["entries"][0]:
+                ent.config(state=NORMAL)
+                dec = int(ent.get())
+                ent.delete(0, END)
+                ent.insert(0, hex(dec)[2:].upper())
+                if self.var.get() != 7:
+                    ent.config(state=DISABLED)
+        except ValueError as exc:
+            self.hexMode.set(False)
+            return user32MessageBox(
+                message="cannot convert {0} to hexadecimal".format(str(exc).split(" ")[-1]),
+                title="error",
+                style=MB_ICONSTOP | MB_OK
+            )
+    else:
+        try:
+            for ent in incrementerColl["entries"][0]:
+                ent.config(state=NORMAL)
+                int_ = int(ent.get(), 16)
+                ent.delete(0, END)
+                ent.insert(0, int_)
+                if self.var.get() != 1:
+                    ent.config(state=DISABLED)
+            
+            for ent in randomizerColl["entries"][0]:
+                ent.config(state=NORMAL)
+                if isinstance(ent, sw.Entry):
+                    min_, max_ = ent.get("/")
+                    ent.delete(0, END)
+                    ent.insert(0, f"{int(min_, 16)}/{int(max_, 16)}")
+                else:
+                    int_ = int(ent.get(), 16)
+                    ent.delete(0, END)
+                    ent.insert(0, int_)
+                if self.var.get() != 2:
+                    ent.config(state=DISABLED)
+
+            for ent in replacerColl["entries"][0]:
+                ent.config(state=NORMAL)
+                if isinstance(ent, sw.Entry):
+                    org, new = ent.get("/")
+                    ent.delete(0, END)
+                    ent.insert(0, f"{int(org, 16)}/{int(new, 16)}")
+                else:
+                    int_ = int(ent.get(), 16)
+                    ent.delete(0, END)
+                    ent.insert(0, int_)
+                if self.var.get() != 3:
+                    ent.config(state=DISABLED)
+
+            for ent in swapperColl["entries"][0]:
+                ent.config(state=NORMAL)
+                int_ = int(ent.get(), 16)
+                ent.delete(0, END)
+                ent.insert(0, int_)
+                if self.var.get() != 4:
+                    ent.config(state=DISABLED)
+
+            for ent in copierColl["entries"][0]:
+                ent.config(state=NORMAL)
+                int_ = int(ent.get(), 16)
+                ent.delete(0, END)
+                ent.insert(0, int_)
+                if self.var.get() != 5:
+                    ent.config(state=DISABLED)
+
+            for ent in mixerColl["entries"][0]:
+                ent.config(state=NORMAL)
+                int_ = int(ent.get(), 16)
+                ent.delete(0, END)
+                ent.insert(0, int_)
+                if self.var.get() != 6:
+                    ent.config(state=DISABLED)
+
+            for ent in bitShifterColl["entries"][0]:
+                ent.config(state=NORMAL)
+                int_ = int(ent.get(), 16)
+                ent.delete(0, END)
+                ent.insert(0, int_)
+                if self.var.get() != 7:
+                    ent.config(state=DISABLED)
+        except ValueError as exc:
+            self.hexMode.set(True)
+            return user32MessageBox(
+                message="cannot convert {0} to decimal".format(str(exc).split(" ")[-1]),
+                title="error",
+                style=MB_ICONSTOP | MB_OK
+            )
+
 def reverseBytes(byteArray: list, start: str, end: str) -> list:
     reversedArray = []
     reversedArray.clear()
@@ -118,7 +277,8 @@ def selectFileToMixWith(self):
     except AttributeError: return
     self.fileToMixLabel["text"] = self.fileToMixWith
 
-def checkEntriesValuesType(var: int, **collection: sw.EntryCollection) -> bool:
+HEX_NUMS = "0123456789abcdef"
+def checkEntriesValuesType(self, var: int, **collection: sw.EntryCollection) -> bool:
     ent: sw.Entry
     if var == 1: # incrementer
         for ent in (collection["incr"]["entries"][0]):
@@ -128,7 +288,11 @@ def checkEntriesValuesType(var: int, **collection: sw.EntryCollection) -> bool:
                 user32MessageBox(message="make sure to fill all empty fields")
                 return False
             try:
-                int(ent.get())
+                if self.hexMode.get():
+                    for i in ent.get().lower():
+                        if i not in HEX_NUMS: raise ValueError()
+                else:
+                    int(ent.get())
             except ValueError:
                 user32MessageBox(message="invalid symbols were inserted")
                 return False
@@ -144,6 +308,14 @@ def checkEntriesValuesType(var: int, **collection: sw.EntryCollection) -> bool:
             try:
                 if ent.hasSpecialCharacters:
                     try:
+                        min_, max_ = ent.get("/")
+                        if self.hexMode.get():
+                            for i in min_.lower():
+                                if i not in HEX_NUMS: raise ValueError()
+                            for i in max_.lower():
+                                if i not in HEX_NUMS: raise ValueError()
+                        else:
+                            int(min_); int(max_)
                         if len(ent.get().split("/")) > 2: raise se.SoManySlashesInEntry()
                         if len(ent.get().split("/")) == 1: raise se.SoFewSlashesInEntry()
                     except se.SoManySlashesInEntry:
@@ -152,9 +324,16 @@ def checkEntriesValuesType(var: int, **collection: sw.EntryCollection) -> bool:
                     except se.SoFewSlashesInEntry:
                         user32MessageBox(message="entry must have at least one slash")
                         return False
-            except AttributeError:
+            except ValueError:
+                user32MessageBox(message="invalid symbols were inserted")
+                return False
+            except AttributeError: # hasSpecialCharacters == False
                 try:
-                    int(ent.get())
+                    if self.hexMode.get():
+                        for i in ent.get().lower():
+                            if i not in HEX_NUMS: raise ValueError()
+                    else:
+                        int(ent.get())
                 except ValueError:
                     user32MessageBox(message="invalid symbols were inserted")
                     return False
@@ -170,8 +349,19 @@ def checkEntriesValuesType(var: int, **collection: sw.EntryCollection) -> bool:
             try:
                 if ent.hasSpecialCharacters:
                     try:
-                        if len(ent.get().split("/")) > 2: raise se.SoManySlashesInEntry()
-                        if len(ent.get().split("/")) == 1: raise se.SoFewSlashesInEntry()
+                        org, new = ent.get("/")
+                        if self.hexMode.get():
+                            for i in org.lower():
+                                if i not in HEX_NUMS: raise ValueError()
+                            for i in new.lower():
+                                if i not in HEX_NUMS: raise ValueError()
+                        else:
+                            int(org); int(new)
+                            if len(ent.get().split("/")) > 2: raise se.SoManySlashesInEntry()
+                            if len(ent.get().split("/")) == 1: raise se.SoFewSlashesInEntry()
+                    except ValueError:
+                        user32MessageBox(message="invalid symbols were inserted")
+                        return False
                     except se.SoManySlashesInEntry:
                         user32MessageBox(message="entry must not have more than a single slash")
                         return False
@@ -180,7 +370,11 @@ def checkEntriesValuesType(var: int, **collection: sw.EntryCollection) -> bool:
                         return False
             except AttributeError:
                 try:
-                    int(ent.get())
+                    if self.hexMode.get():
+                        for i in ent.get().lower():
+                            if i not in HEX_NUMS: raise ValueError()
+                    else:
+                        int(ent.get())
                 except ValueError:
                     user32MessageBox(message="invalid symbols were inserted")
                     return False
@@ -194,7 +388,11 @@ def checkEntriesValuesType(var: int, **collection: sw.EntryCollection) -> bool:
                 user32MessageBox(message="make sure to fill all empty fields")
                 return False
             try:
-                int(ent.get())
+                if self.hexMode.get():
+                    for i in ent.get().lower():
+                        if i not in HEX_NUMS: raise ValueError()
+                else:
+                    int(ent.get())
             except ValueError:
                 user32MessageBox(message="invalid symbols were inserted")
                 return False
@@ -208,7 +406,11 @@ def checkEntriesValuesType(var: int, **collection: sw.EntryCollection) -> bool:
                 user32MessageBox(message="make sure to fill all empty fields")
                 return False
             try:
-                int(ent.get())
+                if self.hexMode.get():
+                    for i in ent.get().lower():
+                        if i not in HEX_NUMS: raise ValueError()
+                else:
+                    int(ent.get())
             except ValueError:
                 user32MessageBox(message="invalid symbols were inserted")
                 return False
@@ -222,7 +424,11 @@ def checkEntriesValuesType(var: int, **collection: sw.EntryCollection) -> bool:
                 user32MessageBox(message="make sure to fill all empty fields")
                 return False
             try:
-                int(ent.get())
+                if self.hexMode.get():
+                    for i in ent.get().lower():
+                        if i not in HEX_NUMS: raise ValueError()
+                else:
+                    int(ent.get())
             except ValueError:
                 user32MessageBox(message="invalid symbols were inserted")
                 return False
@@ -236,7 +442,11 @@ def checkEntriesValuesType(var: int, **collection: sw.EntryCollection) -> bool:
                 user32MessageBox(message="make sure to fill all empty fields")
                 return False
             try:
-                int(ent.get())
+                if self.hexMode.get():
+                    for i in ent.get().lower():
+                        if i not in HEX_NUMS: raise ValueError()
+                else:
+                    int(ent.get())
             except ValueError:
                 user32MessageBox(message="invalid symbols were inserted")
                 return False
