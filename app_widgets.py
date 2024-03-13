@@ -4,9 +4,21 @@ import special_widgets as sw
 import dynamic_widgets as dw
 import themes as t
 import preset_manager as pm
+from corruption import *
 import os
 
-def init_appWidgets(self, pm: pm, dw: dw, sf: sf, t: t, os: os, sw: sw) -> None:
+def init_windowAttributes(self) -> None:
+    self.v = "v5.0.0"
+    self.title(f"Byte Corruptor {self.v}")
+    self.resizable(0, 0)
+    self.iconbitmap(os.path.join(os.environ["WINDIR"], "System32", "systeminfo.exe")) # windows executable icon
+
+def _init_variables(self) -> None:
+    self.selectedFilePath = ""
+    self.savePath = None
+
+    self.fileToMixWith = None
+
     self.incrementerColl = sw.EntryCollection()
     self.randomizerColl  = sw.EntryCollection()
     self.replacerColl    = sw.EntryCollection()
@@ -21,6 +33,7 @@ def init_appWidgets(self, pm: pm, dw: dw, sf: sf, t: t, os: os, sw: sw) -> None:
     self.defaultThemeVar = BooleanVar(self, True)
     self.darkThemeVar = BooleanVar(self, False)
     self.pistachioThemeVar = BooleanVar(self, False)
+    self.blossomThemeVar = BooleanVar(self, False)
         
     self.exclusive = BooleanVar(self, True)
     self.randomizedOperators = BooleanVar(self, False)
@@ -29,10 +42,16 @@ def init_appWidgets(self, pm: pm, dw: dw, sf: sf, t: t, os: os, sw: sw) -> None:
     self.bitShiftDirectionVar = StringVar(self, "left")
     self.bitShiftAmount = IntVar(self, 0)
 
+    self.hexMode = BooleanVar(self, False)
+
+def init_appWidgets(self) -> None:
+    _init_variables(self)
+
     self.menuBar = Menu(self)
     
     self.optionMenu = Menu(self.menuBar, tearoff=0)
     self.optionMenu.add_command(label="Save/Load Preset File", command=lambda: pm.PresetWindow(self).run())
+    self.optionMenu.add_checkbutton(label="Hex Mode", command=lambda: sf.hexModeToggle(self), variable=self.hexMode)
 
     self.corruptionSettingsMenu = Menu(self.menuBar, tearoff=0)
     self.corruptionSettingsMenu.add_checkbutton(label="Randomized Add/Sub Operators", variable=self.randomizedOperators)
@@ -42,6 +61,7 @@ def init_appWidgets(self, pm: pm, dw: dw, sf: sf, t: t, os: os, sw: sw) -> None:
     self.themesMenu.add_checkbutton(label="Default", command=lambda: t.Theme(self).setDefaultTheme(), variable=self.defaultThemeVar, activebackground=t.LightTheme.MENU_HIGHLIGHT.value)
     self.themesMenu.add_checkbutton(label="Dark", command=lambda: t.Theme(self).setDarkTheme(), variable=self.darkThemeVar, activebackground=t.DarkTheme.MENU_HIGHLIGHT.value)
     self.themesMenu.add_checkbutton(label="Pistachio", command=lambda: t.Theme(self).setPistachioTheme(), variable=self.pistachioThemeVar, activebackground=t.PistachioTheme.MENU_HIGHLIGHT.value)
+    self.themesMenu.add_checkbutton(label="Blossom", command=lambda: t.Theme(self).setBlossomTheme(), variable=self.blossomThemeVar, activebackground=t.BlossomTheme.MENU_HIGHLIGHT.value)
 
     self.helpMenu = Menu(self.menuBar, tearoff=0)
     self.MenuItemsSubMenu = Menu(self.helpMenu, tearoff=0)
@@ -125,7 +145,7 @@ def init_appWidgets(self, pm: pm, dw: dw, sf: sf, t: t, os: os, sw: sw) -> None:
     self.incrementerEndAtEntry.grid(row=0, column=10)
     self.incrementerEndAtEntry.insert(END, "0")
 
-    self.incrementerEndFillBtn = Button(self.incrementerFrame, text="very last byte", command=lambda: (self.incrementerEndAtEntry.delete(0, END), self.incrementerEndAtEntry.insert(END, os.path.getsize(self.selectedFilePath))) if len(self.selectedFilePath) > 0 else sf.user32MessageBox("you haven't selected a file yet.", style=sf.MB_ICONEXCLAMATION))
+    self.incrementerEndFillBtn = Button(self.incrementerFrame, text="very last byte", command=lambda: (self.incrementerEndAtEntry.delete(0, END), self.incrementerEndAtEntry.insert(END, os.path.getsize(self.selectedFilePath)) if not self.hexMode.get() else self.incrementerEndAtEntry.insert(END, hex(os.path.getsize(self.selectedFilePath))[2:].upper())) if len(self.selectedFilePath) > 0 else sf.user32MessageBox("you haven't selected a file yet.", style=sf.MB_ICONEXCLAMATION))
     self.incrementerEndFillBtn.grid(row=0, column=11, padx=15)
 
     self.sep4 = Label(self.incrementerFrame)
@@ -186,7 +206,7 @@ def init_appWidgets(self, pm: pm, dw: dw, sf: sf, t: t, os: os, sw: sw) -> None:
     self.randomizerEndAtEntry.grid(row=0, column=10)
     self.randomizerEndAtEntry.insert(END, "0")
 
-    self.randomizerEndFillBtn = Button(self.randomizerFrame, text="very last byte", command=lambda: (self.randomizerEndAtEntry.delete(0, END), self.randomizerEndAtEntry.insert(END, os.path.getsize(self.selectedFilePath))) if len(self.selectedFilePath) > 0 else sf.user32MessageBox("you haven't selected a file yet.", style=sf.MB_ICONEXCLAMATION))
+    self.randomizerEndFillBtn = Button(self.randomizerFrame, text="very last byte", command=lambda: (self.randomizerEndAtEntry.delete(0, END), self.randomizerEndAtEntry.insert(END, os.path.getsize(self.selectedFilePath)) if not self.hexMode.get() else self.randomizerEndAtEntry.insert(END, hex(os.path.getsize(self.selectedFilePath))[2:].upper())) if len(self.selectedFilePath) > 0 else sf.user32MessageBox("you haven't selected a file yet.", style=sf.MB_ICONEXCLAMATION))
     self.randomizerEndFillBtn.grid(row=0, column=11, padx=15)
 
     self.sep7 = Label(self.randomizerFrame)
@@ -247,7 +267,7 @@ def init_appWidgets(self, pm: pm, dw: dw, sf: sf, t: t, os: os, sw: sw) -> None:
     self.replacerEndAtEntry.grid(row=0, column=10)
     self.replacerEndAtEntry.insert(END, "0")
 
-    self.replacerEndFillBtn = Button(self.replacerFrame, text="very last byte", command=lambda: (self.replacerEndAtEntry.delete(0, END), self.replacerEndAtEntry.insert(END, os.path.getsize(self.selectedFilePath))) if len(self.selectedFilePath) > 0 else sf.user32MessageBox("you haven't selected a file yet.", style=sf.MB_ICONEXCLAMATION))
+    self.replacerEndFillBtn = Button(self.replacerFrame, text="very last byte", command=lambda: (self.replacerEndAtEntry.delete(0, END), self.replacerEndAtEntry.insert(END, os.path.getsize(self.selectedFilePath)) if not self.hexMode.get() else self.replacerEndAtEntry.insert(END, hex(os.path.getsize(self.selectedFilePath))[2:].upper())) if len(self.selectedFilePath) > 0 else sf.user32MessageBox("you haven't selected a file yet.", style=sf.MB_ICONEXCLAMATION))
     self.replacerEndFillBtn.grid(row=0, column=11, padx=15)
 
     self.replacerExclusiveCb = Checkbutton(self, text="Exclusive bytes", variable=self.exclusive, command=lambda: dw.exclusiveToggle(self))
@@ -299,7 +319,7 @@ def init_appWidgets(self, pm: pm, dw: dw, sf: sf, t: t, os: os, sw: sw) -> None:
     self.swapperEndAtEntry = Entry(self.swapperFrame, width=9)
     self.swapperEndAtEntry.insert(END, 0)
 
-    self.swapperEndFillBtn = Button(self.swapperFrame, text="very last byte", command=lambda: (self.swapperEndAtEntry.delete(0, END), self.swapperEndAtEntry.insert(END, os.path.getsize(self.selectedFilePath))) if len(self.selectedFilePath) > 0 else sf.user32MessageBox("you haven't selected a file yet.", style=sf.MB_ICONEXCLAMATION))
+    self.swapperEndFillBtn = Button(self.swapperFrame, text="very last byte", command=lambda: (self.swapperEndAtEntry.delete(0, END), self.swapperEndAtEntry.insert(END, os.path.getsize(self.selectedFilePath)) if not self.hexMode.get() else self.swapperEndAtEntry.insert(END, hex(os.path.getsize(self.selectedFilePath))[2:].upper())) if len(self.selectedFilePath) > 0 else sf.user32MessageBox("you haven't selected a file yet.", style=sf.MB_ICONEXCLAMATION))
 
     self.swapperColl.setEntry(
         self.swapperStartEntry,
@@ -340,7 +360,7 @@ def init_appWidgets(self, pm: pm, dw: dw, sf: sf, t: t, os: os, sw: sw) -> None:
     self.copierEndAtEntry = Entry(self.copierFrame, width=9)
     self.copierEndAtEntry.insert(END, 0)
 
-    self.copierEndFillBtn = Button(self.copierFrame, text="very last byte", command=lambda: (self.copierEndAtEntry.delete(0, END), self.copierEndAtEntry.insert(END, os.path.getsize(self.selectedFilePath))) if len(self.selectedFilePath) > 0 else sf.user32MessageBox("you haven't selected a file yet.", style=sf.MB_ICONEXCLAMATION))
+    self.copierEndFillBtn = Button(self.copierFrame, text="very last byte", command=lambda: (self.copierEndAtEntry.delete(0, END), self.copierEndAtEntry.insert(END, os.path.getsize(self.selectedFilePath)) if not self.hexMode.get() else self.copierEndAtEntry.insert(END, hex(os.path.getsize(self.selectedFilePath))[2:].upper())) if len(self.selectedFilePath) > 0 else sf.user32MessageBox("you haven't selected a file yet.", style=sf.MB_ICONEXCLAMATION))
 
     self.copierColl.setEntry(
         self.copierStartEntry,
@@ -380,7 +400,7 @@ def init_appWidgets(self, pm: pm, dw: dw, sf: sf, t: t, os: os, sw: sw) -> None:
     self.mixerEndAtEntry = Entry(self.mixerFrame, width=9)
     self.mixerEndAtEntry.insert(END, 0)
 
-    self.mixerEndFillBtn = Button(self.mixerFrame, text="very last byte", command=lambda: (self.mixerEndAtEntry.delete(0, END), self.mixerEndAtEntry.insert(END, os.path.getsize(self.selectedFilePath))) if len(self.selectedFilePath) > 0 else sf.user32MessageBox("you haven't selected a file yet.", style=sf.MB_ICONEXCLAMATION))
+    self.mixerEndFillBtn = Button(self.mixerFrame, text="very last byte", command=lambda: (self.mixerEndAtEntry.delete(0, END), self.mixerEndAtEntry.insert(END, os.path.getsize(self.selectedFilePath)) if not self.hexMode.get() else self.mixerEndAtEntry.insert(END, hex(os.path.getsize(self.selectedFilePath))[2:].upper())) if len(self.selectedFilePath) > 0 else sf.user32MessageBox("you haven't selected a file yet.", style=sf.MB_ICONEXCLAMATION))
 
     self.fileToMixLabel = Label(self, text="no file is selected")
 
@@ -437,7 +457,7 @@ def init_appWidgets(self, pm: pm, dw: dw, sf: sf, t: t, os: os, sw: sw) -> None:
     self.bitShiftEndtAtEntry = Entry(self.bitShiftFrame, width=9)
     self.bitShiftEndtAtEntry.insert(END, 0)
 
-    self.bitShiftEndFillBtn = Button(self.bitShiftFrame, text="very last byte", command=lambda: (self.bitShiftEndtAtEntry.delete(0, END), self.bitShiftEndtAtEntry.insert(END, os.path.getsize(self.selectedFilePath))) if len(self.selectedFilePath) > 0 else sf.user32MessageBox("you haven't selected a file yet.", style=sf.MB_ICONEXCLAMATION))
+    self.bitShiftEndFillBtn = Button(self.bitShiftFrame, text="very last byte", command=lambda: (self.bitShiftEndtAtEntry.delete(0, END), self.bitShiftEndtAtEntry.insert(END, os.path.getsize(self.selectedFilePath)) if not self.hexMode.get() else self.bitShiftEndtAtEntry.insert(END, hex(os.path.getsize(self.selectedFilePath))[2:].upper())) if len(self.selectedFilePath) > 0 else sf.user32MessageBox("you haven't selected a file yet.", style=sf.MB_ICONEXCLAMATION))
 
     self.bitShifterColl.setEntry(
         self.bitShiftStartAtEntry,
@@ -453,7 +473,7 @@ def init_appWidgets(self, pm: pm, dw: dw, sf: sf, t: t, os: os, sw: sw) -> None:
     self.prevPageBtn = Button(self.bottomFrame, text="<<<", font=("Helvetica", 15, "bold"), state=NORMAL, command=lambda: dw.prevAndNextSwitch(self, "<<<"))
     self.prevPageBtn.grid(row=0, column=0, padx=5)
 
-    self.corruptBtn = Button(self.bottomFrame, text="Corrupt", font=("Helvetica", 20, "bold"), state=DISABLED, command=self.runCorruption)
+    self.corruptBtn = Button(self.bottomFrame, text="Corrupt", font=("Helvetica", 20, "bold"), state=DISABLED, command=lambda: runCorruption(self))
     self.corruptBtn.grid(row=0, column=1)
 
     self.nextPageBtn = Button(self.bottomFrame, text=">>>", font=("Helvetica", 15, "bold"), state=NORMAL, command=lambda: dw.prevAndNextSwitch(self, ">>>"))
