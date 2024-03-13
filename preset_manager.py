@@ -2,7 +2,7 @@ from tkinter import *
 import themes as t
 import json, os
 import dynamic_widgets as dw
-from sub_functions import user32MessageBox, MB_OK, MB_ICONSTOP, MB_YESNO, IDYES, IDNO, MB_ICONQUESTION
+from sub_functions import *
 
 class PresetWindow(Toplevel):
     def __init__(self, master) -> None:
@@ -88,8 +88,10 @@ class PresetWindow(Toplevel):
                 "defaultThemeVar": self.master.defaultThemeVar.get(),
                 "darkThemeVar": self.master.darkThemeVar.get(),
                 "pistachioThemeVar": self.master.pistachioThemeVar.get(),
+                "blossomThemeVar": self.master.blossomThemeVar.get(),
                 "bitShiftDirectionVar": self.master.bitShiftDirectionVar.get(),
-                "bitShiftAmount": self.master.bitShiftAmount.get()
+                "bitShiftAmount": self.master.bitShiftAmount.get(),
+                "hexMode": self.master.hexMode.get()
             },
 
             "menuBar": {
@@ -210,7 +212,7 @@ class PresetWindow(Toplevel):
         )
         if userChoice == IDYES:
             os.remove(fileToDel)
-        self._scanFolder()
+            self._scanFolder()
 
     def load(self):
         savedFile = self.saveFolder+"\\"+self.presetsListBox.get(ACTIVE)
@@ -222,6 +224,8 @@ class PresetWindow(Toplevel):
         self.master.defaultThemeVar.set(data["vars"]["defaultThemeVar"])
         self.master.darkThemeVar.set(data["vars"]["darkThemeVar"])
         self.master.pistachioThemeVar.set(data["vars"]["pistachioThemeVar"])
+        self.master.blossomThemeVar.set(data["vars"]["blossomThemeVar"])
+        self.master.hexMode.set(data["vars"]["hexMode"])
 
         self.master.bitShiftDirectionVar.set(data["vars"]["bitShiftDirectionVar"])
         self.master.bitShiftAmount.set(data["vars"]["bitShiftAmount"])
@@ -310,6 +314,8 @@ class PresetWindow(Toplevel):
         self.master.bitShiftGapEntry.insert(0, data["bitShifterLabel"]["bitShiftGapEntry"]); self.master.bitShiftGapEntry.config(state=DISABLED)
         self.master.bitShiftEndtAtEntry.insert(0, data["bitShifterLabel"]["bitShiftEndtAtEntry"]); self.master.bitShiftEndtAtEntry.config(state=DISABLED)
 
+        self.master.corruptBtn.config(state=NORMAL)
+
         if self.master.defaultThemeVar.get():
             self.t.setDefaultTheme()
 
@@ -319,12 +325,15 @@ class PresetWindow(Toplevel):
         if self.master.pistachioThemeVar.get():
             self.t.setPistachioTheme()
 
-        if str(self.master.currentMenu) != str(data["vars"]["currentMenu"]): # don't load page if it's already in use
+        if self.master.blossomThemeVar.get():
+            self.t.setBlossomTheme()
+
+        # prevents loading a page if it's already being used
+        if str(self.master.currentMenu) != str(data["vars"]["currentMenu"]):
             dw.prevAndNextSwitch(self.master, "PRESET", data["vars"]["currentMenu"])
 
         dw.autoDisableAndEnable(self.master)
         dw.exclusiveToggle(self.master)
-        self.master.corruptBtn.config(state=NORMAL)
 
         self.destroy()
 
