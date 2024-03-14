@@ -204,7 +204,7 @@ def runCorruption(self):
         mixBytes.clear()
         mixIndex = 0
         mixFile = open(self.fileToMixWith, "rb+")
-        for i in range(0, (int(mEndAt) // int(mGap))):
+        for i in range(0, len(byteArray)):
             mixFile.seek(i)
             mixByte = mixFile.read(1)
             if mixByte == b"": break
