@@ -8,7 +8,7 @@ from corruption import *
 import os
 
 def init_windowAttributes(self) -> None:
-    self.v = "v5.0.0"
+    self.v = "v5.1.0"
     self.title(f"Byte Corruptor {self.v}")
     self.resizable(0, 0)
     self.iconbitmap(os.path.join(os.environ["WINDIR"], "System32", "systeminfo.exe")) # windows executable icon

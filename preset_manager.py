@@ -15,9 +15,24 @@ class PresetWindow(Toplevel):
         self.bind("<Escape>", lambda x=None: self.destroy())
 
         self.saveFolder = os.path.abspath(".")+"\\presets\\"
+        self.iconFolder = os.path.abspath(".")+"\\icons\\"
 
         self.savePathLabel = Label(self, text=self.saveFolder)
         self.savePathLabel.pack(pady=5)
+
+        self.searchFrame = Frame(self)
+        self.searchFrame.pack(pady=5)
+
+        self.searchEntry = Entry(self.searchFrame)
+        self.searchEntry.grid(row=0, column=0, padx=5)
+        self.searchEntry.bind("<FocusIn>", self.search)
+        self.searchEntry.bind("<FocusOut>", self.search)
+
+        searchImg = PhotoImage(file=self.iconFolder+"search.png")
+        self.searchBtn = Button(self.searchFrame, image=searchImg, command=lambda: self.search(None))
+        self.searchBtn.image = searchImg
+        self.searchBtn.grid(row=0, column=1)
+        self.bind("<Return>", lambda x=None: self.search(None))
 
         self.presetsListBoxFrame = Frame(self)
         self.presetsListBoxFrame.pack(pady=10)
@@ -49,8 +64,27 @@ class PresetWindow(Toplevel):
 
         self.t.setPresetManagerTheme(self)
         self._scanFolder()
+        self.search("<FocusOut event>")
 
-    def _scanFolder(self):
+    def search(self, event):
+        searchQuery = self.searchEntry.get()
+        if event == None and searchQuery == "search…" and self.searchEntry["fg"] == "grey": return
+        if not searchQuery and str(event) == "<FocusIn event>" or (searchQuery == "search…" and self.searchEntry["fg"] == "grey"):
+            self.searchEntry.config(fg="black")
+            self.searchEntry.delete(0, END)
+            return
+
+        if not searchQuery and str(event) == "<FocusOut event>":
+            self.searchEntry.config(fg="grey")
+            self.searchEntry.insert(0, "search…")
+            return
+
+        if str(event) in ["<FocusIn event>", "<FocusOut event>"]:
+            return
+        
+        self._scanFolder(searchQuery)
+
+    def _scanFolder(self, query=None):
         if not os.path.exists(self.saveFolder):
             os.mkdir(self.saveFolder)
             self.presetsListBox.insert(END, "empty")
@@ -59,12 +93,19 @@ class PresetWindow(Toplevel):
         
         self.presetsListBox.delete(0, END)
         dirList = os.listdir(self.saveFolder)
-        jsons = [x for x in dirList if x.lower().endswith(".json")]
-        
+
+        if query == None or query == "":
+            jsons = [x for x in dirList if x.lower().endswith(".json")]
+        else:
+            jsons = [x for x in dirList if query in x.lower() and x.lower().endswith(".json")]
+
         if len(jsons) == 0:
             self.presetsListBox.insert(END, "empty")
             self.presetsListBox.config(state=DISABLED)
             return
+        else:
+            self.presetsListBox.config(state=NORMAL)
+            self.presetsListBox.delete(0, END)
 
         for file in jsons:
             if file.lower().endswith(".json"):
