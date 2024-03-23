@@ -3,6 +3,10 @@ import ctypes
 import special_widgets as sw
 import special_errors as se
 from tkinter.filedialog import *
+from ctypes import wintypes
+
+# windows API constants
+# https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-messagebox
 
 MB_OK = 0x00000000
 MB_YESNO = 0x00000004
@@ -15,19 +19,19 @@ MB_ICONQUESTION = 0x00000020
 IDYES = 6
 IDNO = 7
 
-def user32MessageBox(message: str, title: str="warning", style: int=MB_OK | MB_ICONEXCLAMATION):
-    return ctypes.windll.user32.MessageBoxW(None, message, title, style)
+def user32MessageBox(message: str, title: str=None, style: int=MB_OK):
+    return ctypes.windll.user32.MessageBoxW(None, wintypes.LPCWSTR(message), wintypes.LPCWSTR(title), style)
 
 def info(buttonType: str) -> None:
     if buttonType == "add file":
         return user32MessageBox(
-            message="specify the path for your target file.\nnote: the program will only copy the content of it, so you don't have to worry about it",
+            message="specify the path for your target file.\nnote: the program will only copy the content of it, so you don't have to worry about it\n\nHotkey: Alt+F",
             title="help",
             style=MB_OK | MB_ICONASTERISK
         )
     elif buttonType == "save file":
         return user32MessageBox(
-            message="specify the path for your corrupted file.",
+            message="specify the path for your corrupted file.\n\nHotkey: Alt+S",
             title="help",
             style=MB_OK | MB_ICONASTERISK
         )
@@ -102,6 +106,13 @@ def randomizedAddSubOperators_HELP() -> None:
 def invertFileBytes_HELP() -> None:
     return user32MessageBox(
         message="when this option is enabled, the corruptor will write the bytes of a file in reverse (not recommended if you're corrupting a binary file, as it does not adhere to the \"gap size\" parameter)",
+        title="help",
+        style=MB_OK | MB_ICONASTERISK
+    )
+
+def chunkSize_HELP() -> None:
+    return user32MessageBox(
+        message="the amount of bytes to corrupt at once",
         title="help",
         style=MB_OK | MB_ICONASTERISK
     )
@@ -462,7 +473,7 @@ def selectFile(self) -> None:
     self.saveBtn.config(state=NORMAL)
 
 def saveToPath(self) -> None:
-    if not self.selectedFilePath: return
+    if not self.selectedFilePath: return user32MessageBox("select a file at first", title="save to…")
     self.saveBtn.config(state=NORMAL)
     try: self.savePath = asksaveasfile(initialfile=self.selectedFilePath).name
     except AttributeError: return

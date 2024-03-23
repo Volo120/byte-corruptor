@@ -77,10 +77,7 @@ class Theme:
         self.master.config(bg=DarkTheme.BG.value)
 
         self.master.optionMenu.config(activebackground=DarkTheme.MENU_HIGHLIGHT.value)
-        self.master.corruptionSettingsMenu.config(activebackground=DarkTheme.MENU_HIGHLIGHT.value)
-        self.master.helpMenu.config(activebackground=DarkTheme.MENU_HIGHLIGHT.value)
-        self.master.MenuItemsSubMenu.config(activebackground=DarkTheme.MENU_HIGHLIGHT.value)
-
+        
         self.master.bitShiftDirectionMenu.menu.config(activebackground=DarkTheme.MENU_HIGHLIGHT.value)
         self.master.bitShiftAmountMenu.menu.config(activebackground=DarkTheme.MENU_HIGHLIGHT.value)
 
@@ -139,7 +136,7 @@ class Theme:
         self.master.replacerEndAtLabel.config(bg=DarkTheme.LABEL_BG.value, fg=DarkTheme.LABEL_FG.value)
         self.master.replacerEndAtEntry.config(bg=DarkTheme.ENTRY_BG.value, fg=DarkTheme.ENTRY_FG.value, disabledbackground=DarkTheme.ENTRY_DB.value, selectbackground=DarkTheme.ENTRY_SBG.value, selectforeground=DarkTheme.ENTRY_SFG.value)
         self.master.replacerEndFillBtn.config(bg=DarkTheme.BTN_BG.value, fg=DarkTheme.BTN_FG.value, activebackground=DarkTheme.BTN_ABG.value, activeforeground=DarkTheme.BTN_AFG.value)
-        self.master.replacerExclusiveCb.config(bg=DarkTheme.LABEL_BG.value, fg=DarkTheme.LABEL_FG.value, activebackground=DarkTheme.BG.value, activeforeground=DarkTheme.FG.value, selectcolor=DarkTheme.BG.value)
+        self.master.replacerExclusiveCb.config(bg=DarkTheme.LABEL_BG.value, fg=DarkTheme.LABEL_FG.value, activebackground=DarkTheme.BG.value, activeforeground=DarkTheme.FG.value, selectcolor=DarkTheme.ENTRY_BG.value)
         self.master.replacerNonExclusiveEntry.config(bg=DarkTheme.ENTRY_BG.value, fg=DarkTheme.ENTRY_FG.value, disabledbackground=DarkTheme.ENTRY_DB.value, selectbackground=DarkTheme.ENTRY_SBG.value, selectforeground=DarkTheme.ENTRY_SFG.value)
 
         self.master.swapperLabel.config(bg=DarkTheme.LABEL_BG.value, fg=DarkTheme.LABEL_FG.value, activebackground=DarkTheme.BG.value, activeforeground=DarkTheme.FG.value, selectcolor=DarkTheme.BG.value)
@@ -194,10 +191,21 @@ class Theme:
         self.master.bitShiftEndtAtEntry.config(bg=DarkTheme.ENTRY_BG.value, fg=DarkTheme.ENTRY_FG.value, disabledbackground=DarkTheme.ENTRY_DB.value, selectbackground=DarkTheme.ENTRY_SBG.value, selectforeground=DarkTheme.ENTRY_SFG.value)
         self.master.bitShiftEndFillBtn.config(bg=DarkTheme.BTN_BG.value, fg=DarkTheme.BTN_FG.value, activebackground=DarkTheme.BTN_ABG.value, activeforeground=DarkTheme.BTN_AFG.value)
 
+        self.master.corruptionSettingsBtn.config(bg=DarkTheme.BTN_BG.value, fg=DarkTheme.BTN_FG.value, activebackground=DarkTheme.BTN_ABG.value, activeforeground=DarkTheme.BTN_AFG.value)
         self.master.bottomFrame.config(bg=DarkTheme.BG.value)
         self.master.prevPageBtn.config(bg=DarkTheme.BTN_BG.value, fg=DarkTheme.BTN_FG.value, activebackground=DarkTheme.BTN_ABG.value, activeforeground=DarkTheme.BTN_AFG.value)
         self.master.corruptBtn.config(bg=DarkTheme.BTN_BG.value, fg=DarkTheme.BTN_FG.value, activebackground=DarkTheme.BTN_ABG.value, activeforeground=DarkTheme.BTN_AFG.value)
         self.master.nextPageBtn.config(bg=DarkTheme.BTN_BG.value, fg=DarkTheme.BTN_FG.value, activebackground=DarkTheme.BTN_ABG.value, activeforeground=DarkTheme.BTN_AFG.value)
+
+        self.master.settingsFrame.config(bg=DarkTheme.BG.value)
+        self.master.randomizedOPsCheckButton.config(bg=DarkTheme.LABEL_BG.value, fg=DarkTheme.LABEL_FG.value, activebackground=DarkTheme.BG.value, activeforeground=DarkTheme.FG.value, selectcolor=DarkTheme.ENTRY_BG.value)
+        self.master.invertFileBytesCheckButton.config(bg=DarkTheme.LABEL_BG.value, fg=DarkTheme.LABEL_FG.value, activebackground=DarkTheme.BG.value, activeforeground=DarkTheme.FG.value, selectcolor=DarkTheme.ENTRY_BG.value)
+        self.master.helpBtnROPs.config(bg=DarkTheme.BTN_BG.value, fg=DarkTheme.BTN_FG.value, activebackground=DarkTheme.BTN_ABG.value, activeforeground=DarkTheme.BTN_AFG.value)
+        self.master.helpBtnIFB.config(bg=DarkTheme.BTN_BG.value, fg=DarkTheme.BTN_FG.value, activebackground=DarkTheme.BTN_ABG.value, activeforeground=DarkTheme.BTN_AFG.value)
+        self.master.settingsFrame2.config(bg=DarkTheme.BG.value)
+        self.master.byteChunkSizeLabel.config(bg=DarkTheme.LABEL_BG.value, fg=DarkTheme.LABEL_FG.value)
+        self.master.byteChunkSizeEntry.config(bg=DarkTheme.ENTRY_BG.value, fg=DarkTheme.ENTRY_FG.value, disabledbackground=DarkTheme.ENTRY_DB.value, selectbackground=DarkTheme.ENTRY_SBG.value, selectforeground=DarkTheme.ENTRY_SFG.value)
+        self.master.helpBtnCS.config(bg=DarkTheme.BTN_BG.value, fg=DarkTheme.BTN_FG.value, activebackground=DarkTheme.BTN_ABG.value, activeforeground=DarkTheme.BTN_AFG.value)
 
         self.isDark.set(True)
         self.isDefault.set(False)
@@ -208,9 +216,6 @@ class Theme:
         self.master.config(bg=LightTheme.BG.value)
 
         self.master.optionMenu.config(activebackground=LightTheme.MENU_HIGHLIGHT.value)
-        self.master.corruptionSettingsMenu.config(activebackground=LightTheme.MENU_HIGHLIGHT.value)
-        self.master.helpMenu.config(activebackground=LightTheme.MENU_HIGHLIGHT.value)
-        self.master.MenuItemsSubMenu.config(activebackground=LightTheme.MENU_HIGHLIGHT.value)
 
         self.master.bitShiftDirectionMenu.menu.config(activebackground=LightTheme.MENU_HIGHLIGHT.value)
         self.master.bitShiftAmountMenu.menu.config(activebackground=LightTheme.MENU_HIGHLIGHT.value)
@@ -325,10 +330,21 @@ class Theme:
         self.master.bitShiftEndtAtEntry.config(bg=LightTheme.ENTRY_BG.value, fg=LightTheme.ENTRY_FG.value, disabledbackground=LightTheme.ENTRY_DB.value, selectbackground=LightTheme.ENTRY_SBG.value, selectforeground=LightTheme.ENTRY_SFG.value)
         self.master.bitShiftEndFillBtn.config(bg=LightTheme.BTN_BG.value, fg=LightTheme.BTN_FG.value, activebackground=LightTheme.BTN_ABG.value, activeforeground=LightTheme.BTN_AFG.value)
 
+        self.master.corruptionSettingsBtn.config(bg=LightTheme.BTN_BG.value, fg=LightTheme.BTN_FG.value, activebackground=LightTheme.BTN_ABG.value, activeforeground=LightTheme.BTN_AFG.value)
         self.master.bottomFrame.config(bg=LightTheme.BG.value)
         self.master.prevPageBtn.config(bg=LightTheme.BTN_BG.value, fg=LightTheme.BTN_FG.value, activebackground=LightTheme.BTN_ABG.value, activeforeground=LightTheme.BTN_AFG.value)
         self.master.corruptBtn.config(bg=LightTheme.BTN_BG.value, fg=LightTheme.BTN_FG.value, activebackground=LightTheme.BTN_ABG.value, activeforeground=LightTheme.BTN_AFG.value)
         self.master.nextPageBtn.config(bg=LightTheme.BTN_BG.value, fg=LightTheme.BTN_FG.value, activebackground=LightTheme.BTN_ABG.value, activeforeground=LightTheme.BTN_AFG.value)
+
+        self.master.settingsFrame.config(bg=LightTheme.BG.value)
+        self.master.randomizedOPsCheckButton.config(bg=LightTheme.LABEL_BG.value, fg=LightTheme.LABEL_FG.value, activebackground=LightTheme.BG.value, activeforeground=LightTheme.FG.value, selectcolor=LightTheme.ENTRY_BG.value)
+        self.master.invertFileBytesCheckButton.config(bg=LightTheme.LABEL_BG.value, fg=LightTheme.LABEL_FG.value, activebackground=LightTheme.BG.value, activeforeground=LightTheme.FG.value, selectcolor=LightTheme.ENTRY_BG.value)
+        self.master.helpBtnROPs.config(bg=LightTheme.BTN_BG.value, fg=LightTheme.BTN_FG.value, activebackground=LightTheme.BTN_ABG.value, activeforeground=LightTheme.BTN_AFG.value)
+        self.master.helpBtnIFB.config(bg=LightTheme.BTN_BG.value, fg=LightTheme.BTN_FG.value, activebackground=LightTheme.BTN_ABG.value, activeforeground=LightTheme.BTN_AFG.value)
+        self.master.settingsFrame2.config(bg=LightTheme.BG.value)
+        self.master.byteChunkSizeLabel.config(bg=LightTheme.LABEL_BG.value, fg=LightTheme.LABEL_FG.value)
+        self.master.byteChunkSizeEntry.config(bg=LightTheme.ENTRY_BG.value, fg=LightTheme.ENTRY_FG.value, disabledbackground=LightTheme.ENTRY_DB.value, selectbackground=LightTheme.ENTRY_SBG.value, selectforeground=LightTheme.ENTRY_SFG.value)
+        self.master.helpBtnCS.config(bg=LightTheme.BTN_BG.value, fg=LightTheme.BTN_FG.value, activebackground=LightTheme.BTN_ABG.value, activeforeground=LightTheme.BTN_AFG.value)
 
         self.isDark.set(False)
         self.isDefault.set(True)
@@ -339,9 +355,6 @@ class Theme:
         self.master.config(bg=PistachioTheme.BG.value)
 
         self.master.optionMenu.config(activebackground=PistachioTheme.MENU_HIGHLIGHT.value)
-        self.master.corruptionSettingsMenu.config(activebackground=PistachioTheme.MENU_HIGHLIGHT.value)
-        self.master.helpMenu.config(activebackground=PistachioTheme.MENU_HIGHLIGHT.value)
-        self.master.MenuItemsSubMenu.config(activebackground=PistachioTheme.MENU_HIGHLIGHT.value)
 
         self.master.bitShiftDirectionMenu.menu.config(activebackground=PistachioTheme.MENU_HIGHLIGHT.value)
         self.master.bitShiftAmountMenu.menu.config(activebackground=PistachioTheme.MENU_HIGHLIGHT.value)
@@ -455,11 +468,22 @@ class Theme:
         self.master.bitShiftEndAtLabel.config(bg=PistachioTheme.LABEL_BG.value, fg=PistachioTheme.LABEL_FG.value)
         self.master.bitShiftEndtAtEntry.config(bg=PistachioTheme.ENTRY_BG.value, fg=PistachioTheme.ENTRY_FG.value, disabledbackground=PistachioTheme.ENTRY_DB.value, selectbackground=PistachioTheme.ENTRY_SBG.value, selectforeground=PistachioTheme.ENTRY_SFG.value)
         self.master.bitShiftEndFillBtn.config(bg=PistachioTheme.BTN_BG.value, fg=PistachioTheme.BTN_FG.value, activebackground=PistachioTheme.BTN_ABG.value, activeforeground=PistachioTheme.BTN_AFG.value)
-
+        
+        self.master.corruptionSettingsBtn.config(bg=PistachioTheme.BTN_BG.value, fg=PistachioTheme.BTN_FG.value, activebackground=PistachioTheme.BTN_ABG.value, activeforeground=PistachioTheme.BTN_AFG.value)
         self.master.bottomFrame.config(bg=PistachioTheme.BG.value)
         self.master.prevPageBtn.config(bg=PistachioTheme.BTN_BG.value, fg=PistachioTheme.BTN_FG.value, activebackground=PistachioTheme.BTN_ABG.value, activeforeground=PistachioTheme.BTN_AFG.value)
         self.master.corruptBtn.config(bg=PistachioTheme.BTN_BG.value, fg=PistachioTheme.BTN_FG.value, activebackground=PistachioTheme.BTN_ABG.value, activeforeground=PistachioTheme.BTN_AFG.value)
         self.master.nextPageBtn.config(bg=PistachioTheme.BTN_BG.value, fg=PistachioTheme.BTN_FG.value, activebackground=PistachioTheme.BTN_ABG.value, activeforeground=PistachioTheme.BTN_AFG.value)
+
+        self.master.settingsFrame.config(bg=PistachioTheme.BG.value)
+        self.master.randomizedOPsCheckButton.config(bg=PistachioTheme.LABEL_BG.value, fg=PistachioTheme.LABEL_FG.value, activebackground=PistachioTheme.BG.value, activeforeground=PistachioTheme.FG.value, selectcolor=PistachioTheme.ENTRY_BG.value)
+        self.master.invertFileBytesCheckButton.config(bg=PistachioTheme.LABEL_BG.value, fg=PistachioTheme.LABEL_FG.value, activebackground=PistachioTheme.BG.value, activeforeground=PistachioTheme.FG.value, selectcolor=PistachioTheme.ENTRY_BG.value)
+        self.master.helpBtnROPs.config(bg=PistachioTheme.BTN_BG.value, fg=PistachioTheme.BTN_FG.value, activebackground=PistachioTheme.BTN_ABG.value, activeforeground=PistachioTheme.BTN_AFG.value)
+        self.master.helpBtnIFB.config(bg=PistachioTheme.BTN_BG.value, fg=PistachioTheme.BTN_FG.value, activebackground=PistachioTheme.BTN_ABG.value, activeforeground=PistachioTheme.BTN_AFG.value)
+        self.master.settingsFrame2.config(bg=PistachioTheme.BG.value)
+        self.master.byteChunkSizeLabel.config(bg=PistachioTheme.LABEL_BG.value, fg=PistachioTheme.LABEL_FG.value)
+        self.master.byteChunkSizeEntry.config(bg=PistachioTheme.ENTRY_BG.value, fg=PistachioTheme.ENTRY_FG.value, disabledbackground=PistachioTheme.ENTRY_DB.value, selectbackground=PistachioTheme.ENTRY_SBG.value, selectforeground=PistachioTheme.ENTRY_SFG.value)
+        self.master.helpBtnCS.config(bg=PistachioTheme.BTN_BG.value, fg=PistachioTheme.BTN_FG.value, activebackground=PistachioTheme.BTN_ABG.value, activeforeground=PistachioTheme.BTN_AFG.value)
 
         self.isDark.set(False)
         self.isDefault.set(False)
@@ -470,9 +494,6 @@ class Theme:
         self.master.config(bg=BlossomTheme.BG.value)
 
         self.master.optionMenu.config(activebackground=BlossomTheme.MENU_HIGHLIGHT.value)
-        self.master.corruptionSettingsMenu.config(activebackground=BlossomTheme.MENU_HIGHLIGHT.value)
-        self.master.helpMenu.config(activebackground=BlossomTheme.MENU_HIGHLIGHT.value)
-        self.master.MenuItemsSubMenu.config(activebackground=BlossomTheme.MENU_HIGHLIGHT.value)
 
         self.master.bitShiftDirectionMenu.menu.config(activebackground=BlossomTheme.MENU_HIGHLIGHT.value)
         self.master.bitShiftAmountMenu.menu.config(activebackground=BlossomTheme.MENU_HIGHLIGHT.value)
@@ -587,10 +608,21 @@ class Theme:
         self.master.bitShiftEndtAtEntry.config(bg=BlossomTheme.ENTRY_BG.value, fg=BlossomTheme.ENTRY_FG.value, disabledbackground=BlossomTheme.ENTRY_DB.value, selectbackground=BlossomTheme.ENTRY_SBG.value, selectforeground=BlossomTheme.ENTRY_SFG.value)
         self.master.bitShiftEndFillBtn.config(bg=BlossomTheme.BTN_BG.value, fg=BlossomTheme.BTN_FG.value, activebackground=BlossomTheme.BTN_ABG.value, activeforeground=BlossomTheme.BTN_AFG.value)
 
+        self.master.corruptionSettingsBtn.config(bg=BlossomTheme.BTN_BG.value, fg=BlossomTheme.BTN_FG.value, activebackground=BlossomTheme.BTN_ABG.value, activeforeground=BlossomTheme.BTN_AFG.value)
         self.master.bottomFrame.config(bg=BlossomTheme.BG.value)
         self.master.prevPageBtn.config(bg=BlossomTheme.BTN_BG.value, fg=BlossomTheme.BTN_FG.value, activebackground=BlossomTheme.BTN_ABG.value, activeforeground=BlossomTheme.BTN_AFG.value)
         self.master.corruptBtn.config(bg=BlossomTheme.BTN_BG.value, fg=BlossomTheme.BTN_FG.value, activebackground=BlossomTheme.BTN_ABG.value, activeforeground=BlossomTheme.BTN_AFG.value)
         self.master.nextPageBtn.config(bg=BlossomTheme.BTN_BG.value, fg=BlossomTheme.BTN_FG.value, activebackground=BlossomTheme.BTN_ABG.value, activeforeground=BlossomTheme.BTN_AFG.value)
+
+        self.master.settingsFrame.config(bg=BlossomTheme.BG.value)
+        self.master.randomizedOPsCheckButton.config(bg=BlossomTheme.LABEL_BG.value, fg=BlossomTheme.LABEL_FG.value, activebackground=BlossomTheme.BG.value, activeforeground=BlossomTheme.FG.value, selectcolor=BlossomTheme.ENTRY_BG.value)
+        self.master.invertFileBytesCheckButton.config(bg=BlossomTheme.LABEL_BG.value, fg=BlossomTheme.LABEL_FG.value, activebackground=BlossomTheme.BG.value, activeforeground=BlossomTheme.FG.value, selectcolor=BlossomTheme.ENTRY_BG.value)
+        self.master.helpBtnROPs.config(bg=BlossomTheme.BTN_BG.value, fg=BlossomTheme.BTN_FG.value, activebackground=BlossomTheme.BTN_ABG.value, activeforeground=BlossomTheme.BTN_AFG.value)
+        self.master.helpBtnIFB.config(bg=BlossomTheme.BTN_BG.value, fg=BlossomTheme.BTN_FG.value, activebackground=BlossomTheme.BTN_ABG.value, activeforeground=BlossomTheme.BTN_AFG.value)
+        self.master.settingsFrame2.config(bg=BlossomTheme.BG.value)
+        self.master.byteChunkSizeLabel.config(bg=BlossomTheme.LABEL_BG.value, fg=BlossomTheme.LABEL_FG.value)
+        self.master.byteChunkSizeEntry.config(bg=BlossomTheme.ENTRY_BG.value, fg=BlossomTheme.ENTRY_FG.value, disabledbackground=BlossomTheme.ENTRY_DB.value, selectbackground=BlossomTheme.ENTRY_SBG.value, selectforeground=BlossomTheme.ENTRY_SFG.value)
+        self.master.helpBtnCS.config(bg=BlossomTheme.BTN_BG.value, fg=BlossomTheme.BTN_FG.value, activebackground=BlossomTheme.BTN_ABG.value, activeforeground=BlossomTheme.BTN_AFG.value)
 
         self.isDark.set(False)
         self.isDefault.set(False)
