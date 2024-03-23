@@ -1,13 +1,14 @@
 from tkinter import *
-from sub_functions import info
+from sub_functions import *
 
-def _setBottomBtnsLayout(self):
-    self.bottomFrame.pack(pady=10, side=BOTTOM)
+def _setBottomBtnsLayout(self) -> None:
+    self.corruptionSettingsBtn.pack()
+    self.bottomFrame.pack(pady=5, side=BOTTOM)
     self.prevPageBtn.grid(row=0, column=0, padx=5)
     self.corruptBtn.grid(row=0, column=1)
     self.nextPageBtn.grid(row=0, column=2, padx=5)
 
-def _setFileLayout(self):
+def _setFileLayout(self) -> None:
     self.topFrame.pack()
     self.fileBtn.grid(row=0, column=0, pady=5)
     self.fileEntry.grid(row=0, column=1, padx=5)
@@ -16,8 +17,63 @@ def _setFileLayout(self):
     self.saveEntry.grid(row=1, column=1, padx=5)
     self.saveHelpBtn.grid(row=1, column=2, padx=5)
 
-def _setPageItems(self):
+def corruptionSettingsMenu(self) -> None:
+    def applyAndQuit(csb: Button):
+        for widget in self.settingsWidgets:
+            widget.pack_forget()
+        csb.config(
+            text="Corruption Settings",
+            command=lambda: corruptionSettingsMenu(self)
+        )
+        csb.pack_forget()
+        _setPageItems(self)
+        # -----------------
+        try:
+            newChunk = int(self.byteChunkSizeEntry.get())
+            if newChunk <= 0:
+                newChunk = 1
+            self.byteChunkSize.set(newChunk)
+        except ValueError:
+            return user32MessageBox(
+                message="valute type is incorrect"
+            )
+    
+    for widget in self.winfo_children():
+        if str(widget) not in [".csb"]:
+            widget.pack_forget()
+        
+    csb: Button = self.nametowidget(".csb")
+    csb.config(
+        text="Apply And Quit",
+        command=lambda: applyAndQuit(csb)
+    )
+    csb.pack_configure(side=BOTTOM, pady=10)
+    # --------------------------------------
+    self.settingsWidgets = []
+    
+    self.settingsFrame.pack(pady=10, padx=70)
+    self.settingsWidgets.append(self.settingsFrame)
 
+    self.randomizedOPsCheckButton.grid(row=0, column=0, pady=5, sticky=W)
+
+    self.invertFileBytesCheckButton.grid(row=1, column=0, pady=5, sticky=W)
+
+    self.helpBtnROPs.grid(row=0, column=1, padx=5, sticky=E)
+
+    self.helpBtnIFB.grid(row=1, column=1, padx=5, sticky=E)
+
+    self.settingsFrame2.pack(padx=70)
+    self.settingsWidgets.append(self.settingsFrame2)
+    
+    self.byteChunkSizeLabel.grid(row=0, column=0, pady=5, padx=5, sticky=W)
+
+    self.byteChunkSizeEntry.grid(row=0, column=1, pady=5, sticky=W)
+    self.byteChunkSizeEntry.delete(0, END)
+    self.byteChunkSizeEntry.insert(0, self.byteChunkSize.get())
+
+    self.helpBtnCS.grid(row=0, column=2, padx=10, sticky=E)
+
+def _setPageItems(self) -> None:
     if self.currentMenu == 2:
         _setFileLayout(self)
         self.bitShiftLabel.pack(pady=5)
@@ -31,7 +87,7 @@ def _setPageItems(self):
         self.bitShiftEndAtLabel.grid(row=0, column=6, padx=5)
         self.bitShiftEndtAtEntry.grid(row=0, column=7, padx=5)
         self.bitShiftEndFillBtn.grid(row=0, column=8, padx=5)
-    _setBottomBtnsLayout(self)
+        _setBottomBtnsLayout(self)
 
     if self.currentMenu == 1:
         _setFileLayout(self)
@@ -72,8 +128,8 @@ def _setPageItems(self):
         self.mixerEndAtLabel.grid(row=0, column=6, padx=5)
         self.mixerEndAtEntry.grid(row=0, column=7)
         self.mixerEndFillBtn.grid(row=0, column=8, padx=15)
-        self.fileToMixLabel.pack(pady=3)
-    _setBottomBtnsLayout(self)
+        self.fileToMixLabel.pack(pady=10)
+        _setBottomBtnsLayout(self)
 
     if self.currentMenu == 0:
         _setFileLayout(self)
@@ -121,10 +177,10 @@ def _setPageItems(self):
         self.replacerEndAtLabel.grid(row=0, column=9, padx=5)
         self.replacerEndAtEntry.grid(row=0, column=10)
         self.replacerEndFillBtn.grid(row=0, column=11, padx=15)
-        self.replacerExclusiveCb.pack()
+        self.replacerExclusiveCb.pack(pady=10)
         _setBottomBtnsLayout(self)
 
-def _switchLogic(self, btn, extraParam=None):
+def _switchLogic(self, btn, extraParam=None) -> None:
     if btn == "PRESET": # loads the last saved page when preset file is loaded
         self.currentMenu = extraParam
     if btn == ">>>":
@@ -132,7 +188,7 @@ def _switchLogic(self, btn, extraParam=None):
     if btn == "<<<":
         self.currentMenu -= 1
 
-def prevAndNextSwitch(self, btn, extraParam=None):
+def prevAndNextSwitch(self, btn, extraParam=None) -> None:
     _switchLogic(self, btn, extraParam)
     if self.currentMenu == 0:
         self.prevPageBtn.config(state=DISABLED)
@@ -187,6 +243,7 @@ def prevAndNextSwitch(self, btn, extraParam=None):
         self.bitShiftEndAtLabel.grid_forget()
         self.bitShiftEndtAtEntry.grid_forget()
         self.bitShiftEndFillBtn.grid_forget()
+        self.corruptionSettingsBtn.pack_forget()
 
     if self.currentMenu == 1:
         self.nextPageBtn.config(state=NORMAL)
@@ -245,6 +302,7 @@ def prevAndNextSwitch(self, btn, extraParam=None):
         self.replacerEndFillBtn.grid_forget()
         self.replacerExclusiveCb.pack_forget()
 
+        self.corruptionSettingsBtn.pack_forget()
         self.bottomFrame.pack_forget()
         self.prevPageBtn.grid_forget()
         self.corruptBtn.grid_forget()
@@ -358,6 +416,7 @@ def prevAndNextSwitch(self, btn, extraParam=None):
         self.mixerEndFillBtn.grid_forget()
         self.fileToMixLabel.pack_forget()
 
+        self.corruptionSettingsBtn.pack_forget()
         self.bottomFrame.pack_forget()
         self.prevPageBtn.grid_forget()
         self.corruptBtn.grid_forget()
@@ -380,7 +439,7 @@ def exclusiveToggle(self):
         self.replacerByEntry.grid(row=0, column=4)
         self.replacerNonExclusiveEntry.grid_forget()
 
-def autoDisableAndEnable(self):
+def autoDisableAndEnable(self) -> None:
     if self.var.get() == 1:
         self.incrementerStartAtLabel.config(state=NORMAL)
         self.incrementerStartEntry.config(state=NORMAL)

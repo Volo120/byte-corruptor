@@ -1,5 +1,4 @@
-from tkinter import *
-from tkinter.filedialog import *
+from tkinter import Tk
 import dynamic_widgets as dw
 import app_widgets as aw
 

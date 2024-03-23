@@ -132,7 +132,8 @@ class PresetWindow(Toplevel):
                 "blossomThemeVar": self.master.blossomThemeVar.get(),
                 "bitShiftDirectionVar": self.master.bitShiftDirectionVar.get(),
                 "bitShiftAmount": self.master.bitShiftAmount.get(),
-                "hexMode": self.master.hexMode.get()
+                "hexMode": self.master.hexMode.get(),
+                "byteChunkSize": self.master.byteChunkSize.get()
             },
 
             "menuBar": {
@@ -267,6 +268,7 @@ class PresetWindow(Toplevel):
         self.master.pistachioThemeVar.set(data["vars"]["pistachioThemeVar"])
         self.master.blossomThemeVar.set(data["vars"]["blossomThemeVar"])
         self.master.hexMode.set(data["vars"]["hexMode"])
+        self.master.byteChunkSize.set(data["vars"]["byteChunkSize"])
 
         self.master.bitShiftDirectionVar.set(data["vars"]["bitShiftDirectionVar"])
         self.master.bitShiftAmount.set(data["vars"]["bitShiftAmount"])
