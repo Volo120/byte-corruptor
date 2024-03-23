@@ -8,10 +8,14 @@ from corruption import *
 import os
 
 def init_windowAttributes(self) -> None:
-    self.v = "v5.1.0"
+    self.v = "v5.2.0"
     self.title(f"Byte Corruptor {self.v}")
     self.resizable(0, 0)
     self.iconbitmap(os.path.join(os.environ["WINDIR"], "System32", "systeminfo.exe")) # windows executable icon
+
+def _init_hotkeys(self) -> None:
+    self.bind("<Alt-f>", lambda x=None: sf.selectFile(self))
+    self.bind("<Alt-s>", lambda x=None: sf.saveToPath(self))
 
 def _init_variables(self) -> None:
     self.selectedFilePath = ""
@@ -43,19 +47,31 @@ def _init_variables(self) -> None:
     self.bitShiftAmount = IntVar(self, 0)
 
     self.hexMode = BooleanVar(self, False)
+    self.byteChunkSize = IntVar(self, 1)
+
+def _init_corruptionSettingsMenu(self) -> None:
+    self.settingsFrame = Frame(self)
+    self.randomizedOPsCheckButton = Checkbutton(self.settingsFrame, text="Randomized Add/Sub Operators", variable=self.randomizedOperators)
+    self.invertFileBytesCheckButton = Checkbutton(self.settingsFrame, text="Invert File Bytes", variable=self.reversedArray)
+    self.helpBtnROPs = Button(self.settingsFrame, text="?", width=4, command=sf.randomizedAddSubOperators_HELP)
+    self.helpBtnIFB = Button(self.settingsFrame, text="?", width=4, command=sf.invertFileBytes_HELP)
+    self.settingsFrame2 = Frame(self)
+    self.byteChunkSizeLabel = Label(self.settingsFrame2, text="Byte Chunk Size")
+    self.byteChunkSizeEntry = Entry(self.settingsFrame2, width=4)
+    self.helpBtnCS = Button(self.settingsFrame2, text="?", width=4, command=sf.chunkSize_HELP)
 
 def init_appWidgets(self) -> None:
     _init_variables(self)
+    _init_hotkeys(self)
+    _init_corruptionSettingsMenu(self)
 
     self.menuBar = Menu(self)
     
+    self.fileMenu = Menu(self.menuBar, tearoff=0)
+
     self.optionMenu = Menu(self.menuBar, tearoff=0)
     self.optionMenu.add_command(label="Save/Load Preset File", command=lambda: pm.PresetWindow(self).run())
     self.optionMenu.add_checkbutton(label="Hex Mode", command=lambda: sf.hexModeToggle(self), variable=self.hexMode)
-
-    self.corruptionSettingsMenu = Menu(self.menuBar, tearoff=0)
-    self.corruptionSettingsMenu.add_checkbutton(label="Randomized Add/Sub Operators", variable=self.randomizedOperators)
-    self.corruptionSettingsMenu.add_checkbutton(label="Invert File Bytes", variable=self.reversedArray)
 
     self.themesMenu = Menu(self.menuBar, tearoff=0)
     self.themesMenu.add_checkbutton(label="Default", command=lambda: t.Theme(self).setDefaultTheme(), variable=self.defaultThemeVar, activebackground=t.LightTheme.MENU_HIGHLIGHT.value)
@@ -63,17 +79,8 @@ def init_appWidgets(self) -> None:
     self.themesMenu.add_checkbutton(label="Pistachio", command=lambda: t.Theme(self).setPistachioTheme(), variable=self.pistachioThemeVar, activebackground=t.PistachioTheme.MENU_HIGHLIGHT.value)
     self.themesMenu.add_checkbutton(label="Blossom", command=lambda: t.Theme(self).setBlossomTheme(), variable=self.blossomThemeVar, activebackground=t.BlossomTheme.MENU_HIGHLIGHT.value)
 
-    self.helpMenu = Menu(self.menuBar, tearoff=0)
-    self.MenuItemsSubMenu = Menu(self.helpMenu, tearoff=0)
-    self.helpMenu.add_cascade(label="Menu Items", menu=self.MenuItemsSubMenu)
-
-    self.MenuItemsSubMenu.add_command(label="Randomized Add/Sub Operators", command=sf.randomizedAddSubOperators_HELP)
-    self.MenuItemsSubMenu.add_command(label="Invert File Bytes", command=sf.invertFileBytes_HELP)
-
     self.menuBar.add_cascade(label="Options", menu=self.optionMenu)
-    self.menuBar.add_cascade(label="Corruption Settings", menu=self.corruptionSettingsMenu)
     self.menuBar.add_cascade(label="Themes", menu=self.themesMenu)
-    self.menuBar.add_cascade(label="Help", menu=self.helpMenu)
     self.config(menu=self.menuBar)
 
     self.topFrame = Frame(self)
@@ -271,7 +278,7 @@ def init_appWidgets(self) -> None:
     self.replacerEndFillBtn.grid(row=0, column=11, padx=15)
 
     self.replacerExclusiveCb = Checkbutton(self, text="Exclusive bytes", variable=self.exclusive, command=lambda: dw.exclusiveToggle(self))
-    self.replacerExclusiveCb.pack()
+    self.replacerExclusiveCb.pack(pady=10)
 
     # hidden (page1) *****
     self.replacerNonExclusiveEntry = Entry(self.replacerFrame, width=5)
@@ -467,8 +474,11 @@ def init_appWidgets(self) -> None:
 
     # **********
 
+    self.corruptionSettingsBtn = Button(self, text="Corruption Settings", command=lambda: dw.corruptionSettingsMenu(self), name="csb")
+    self.corruptionSettingsBtn.pack()
+
     self.bottomFrame = Frame(self)
-    self.bottomFrame.pack(pady=10, side="bottom")
+    self.bottomFrame.pack(pady=5, side="bottom")
 
     self.prevPageBtn = Button(self.bottomFrame, text="<<<", font=("Helvetica", 15, "bold"), state=NORMAL, command=lambda: dw.prevAndNextSwitch(self, "<<<"))
     self.prevPageBtn.grid(row=0, column=0, padx=5)
